@@ -40,8 +40,8 @@ public class Controller implements Initializable{
     @FXML
     private MediaView mediaView;
 
-    @FXML
-    private Button playButton, pauseButton, resetButton;
+//    @FXML
+//    private Button playButton, pauseButton, resetButton;
 
     @FXML
     private Slider timeSlider;
@@ -63,16 +63,17 @@ public class Controller implements Initializable{
 
 
         file = new File("filmik.mp4");
-
-        media = new Media(file.toURI().toString());
-
-        mediaPlayer = new MediaPlayer(media);
+        Modifyer modifyer = new Modifyer(file);
+        modifyer.setRate(1.0);
+        modifyer.setVolume(1.0);
+        media = modifyer.getMedia();
+        mediaPlayer = modifyer.getMediaPlayer();
+        mediaPlayer.setAutoPlay(true);
         mediaPlayer.currentTimeProperty().addListener(new ChangeListener<Duration>() {
             @Override
             public void changed(ObservableValue<? extends Duration> observable, Duration oldValue, Duration newValue) {
                 //coding...
                 Duration d = mediaPlayer.getCurrentTime();
-
                 timeSlider.setValue(d.toMinutes());
             }
         });
@@ -83,18 +84,12 @@ public class Controller implements Initializable{
                     double val = timeSlider.getValue();
                     mediaPlayer.seek(new Duration(val * 60 * 1000));
                 }
-                else{
-//                    timeSlider.setValue(mediaPlayer.getCurrentTime().toSeconds());
-//                    System.out.println(mediaPlayer.getCurrentTime());
-                }
             }
-        });timeSlider.setShowTickLabels(true);
+        });
+        timeSlider.setShowTickLabels(true);
         timeSlider.setShowTickMarks(true);
         mediaView.setMediaPlayer(mediaPlayer);
         mediaView.fitHeightProperty();mediaView.fitWidthProperty();
-        //volumeSlider.setValueChanging();
-
-
     }
 
     public void playMedia() {
@@ -108,6 +103,7 @@ public class Controller implements Initializable{
     }
 
     public void turnOnVideoEditor(ActionEvent event) throws IOException {
+        mediaPlayer.pause();
         FXMLLoader fxmlLoader = new FXMLLoader(VPApplication.class.getResource("VE.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage = (Stage)((javafx.scene.Node)event.getSource()).getScene().getWindow();
