@@ -83,6 +83,7 @@ public class Controller implements Initializable{
                 if (timeSlider.isPressed()) {
                     double val = timeSlider.getValue();
                     mediaPlayer.seek(new Duration(val * 60 * 1000));
+                    System.out.println(val * 60 * 1000);
                 }
             }
         });
