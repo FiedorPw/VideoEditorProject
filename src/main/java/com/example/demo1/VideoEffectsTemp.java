@@ -59,7 +59,22 @@ public class VideoEffectsTemp {
         FFmpegExecutor executor = new FFmpegExecutor(ffmpeg, ffprobe);
         executor.createJob(builder).run();
     }
-
+    public static void colorBalance(String filename, String output, long time1, long time2, double intensity, String color, String level ){  //bluruje srodkowy segment po cutPass
+        String colorBalance=String.valueOf(color.charAt(0))  +String.valueOf(level.charAt(0));
+        cutPass(filename,time1, time2);
+        String input = filename.substring(0, filename.lastIndexOf('.')) + "2" + ".mp4";
+        File inputFile = new File(input);
+        FFmpegBuilder builder = new FFmpegBuilder()
+                .setInput(input)     // Filename, or a FFmpegProbeResult
+                .overrideOutputFiles(true) // Override the output if it exists
+                .addOutput(filename.substring(0, filename.lastIndexOf('.'))+"2edit" + ".mp4")   // Filename for the destination
+                .setFormat("mp4")        // Format is inferred from filename, or can be set
+                .done().setComplexFilter("colorbalance="+colorBalance+"="+intensity);
+        FFmpegExecutor executor = new FFmpegExecutor(ffmpeg, ffprobe);
+        executor.createJob(builder).run();
+        inputFile.delete();
+        concatenateFin(filename,output);
+    }
     public static void blurSegment(String filename, String output, long time1, long time2, int blurStrength){  //bluruje srodkowy segment po cutPass
         cutPass(filename,time1, time2);
         String input = filename.substring(0, filename.lastIndexOf('.')) + "2" + ".mp4";
@@ -113,7 +128,8 @@ public class VideoEffectsTemp {
 
     public static void main(String[] args){
 
-    blurSegment("filmik.mp4","output.mp4",10,20,20);
+    //blurSegment("filmik.mp4","output.mp4",10,20,20);
+    colorBalance("filmik.mp4","output.mp4",10,20,(double) -1,"red","medium");
 
     }
 }
