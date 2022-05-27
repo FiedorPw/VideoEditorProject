@@ -3,6 +3,7 @@ module com.example.demo1 {
     requires javafx.fxml;
     requires javafx.media;
     requires ffmpeg;
+    requires org.slf4j;
 
 
     opens com.example.demo1 to javafx.fxml;
