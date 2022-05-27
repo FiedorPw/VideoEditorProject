@@ -48,7 +48,7 @@ public class VideoEffectsTemp {
         inputFile3.delete();
     }
     public static void blur(String filename, String output, long time1, long time2, int blurStrength){  //bluruje srodkowy segment po cutPass
-        cutPass(filename,output,time1, time2);
+        cutPass(filename,time1, time2);
         String input = filename.substring(0, filename.lastIndexOf('.')) + "2" + ".mp4";
         File inputFile = new File(input);
         FFmpegBuilder builder = new FFmpegBuilder()
@@ -63,7 +63,7 @@ public class VideoEffectsTemp {
         inputFile.delete();
         concatenateFin(filename,output);
     }
-    public static void cutPass(String filename, String output, long time1, long time2){     //Dzieli filmik na trzy
+    public static void cutPass(String filename, long time1, long time2){     //Dzieli filmik na trzy
         String input1 = filename.substring(0, filename.lastIndexOf('.')) + "1" + ".mp4";
         String input2 = filename.substring(0, filename.lastIndexOf('.')) + "2" + ".mp4";
         String input3 = filename.substring(0, filename.lastIndexOf('.')) + "3" + ".mp4";
