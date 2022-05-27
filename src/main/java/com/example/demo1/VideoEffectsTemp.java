@@ -59,7 +59,9 @@ public class VideoEffectsTemp {
         FFmpegExecutor executor = new FFmpegExecutor(ffmpeg, ffprobe);
         executor.createJob(builder).run();
     }
-    public static void colorBalance(String filename, String output, long time1, long time2, double intensity, String color, String level ){  //bluruje srodkowy segment po cutPass
+    public static void colorBalance(String filename, String output, long time1, long time2, double intensity, String color, String level,boolean replace){  //bluruje srodkowy segment po cutPass
+        if(level=="low")
+            level="small";
         String colorBalance=String.valueOf(color.charAt(0))  +String.valueOf(level.charAt(0));
         cutPass(filename,time1, time2);
         String input = filename.substring(0, filename.lastIndexOf('.')) + "2" + ".mp4";
@@ -74,8 +76,16 @@ public class VideoEffectsTemp {
         executor.createJob(builder).run();
         inputFile.delete();
         concatenateFin(filename,output);
+//        if(replace)
+//        {
+////            File deleteInput = new File(filename);
+////            deleteInput.delete();
+////            File replacedInput = new File(filename);
+////            File replacingInput = new File(output);
+////            replacingInput.renameTo(replacedInput);
+//        }
     }
-    public static void blurSegment(String filename, String output, long time1, long time2, int blurStrength){  //bluruje srodkowy segment po cutPass
+    public static void blurSegment(String filename, String output, long time1, long time2, int blurStrength, boolean replace){  //bluruje srodkowy segment po cutPass
         cutPass(filename,time1, time2);
         String input = filename.substring(0, filename.lastIndexOf('.')) + "2" + ".mp4";
         File inputFile = new File(input);
@@ -90,6 +100,14 @@ public class VideoEffectsTemp {
         executor.createJob(builder).run();
         inputFile.delete();
         concatenateFin(filename,output);
+//        if(replace)
+//        {
+////            File deleteInput = new File(filename);
+////            deleteInput.delete();
+////            File replacedInput = new File(filename);
+////            File replacingInput = new File(output);
+////            replacingInput.renameTo(replacedInput);
+//        }
     }
     public static void cutPass(String filename, long time1, long time2){     //Dzieli filmik na trzy
         String input1 = filename.substring(0, filename.lastIndexOf('.')) + "1" + ".mp4";
@@ -125,11 +143,33 @@ public class VideoEffectsTemp {
         executor.createJob(builder3).run();
     }
 
+    public static void compress(String filename, String output, boolean replace){  //bluruje calosc
+        FFmpegBuilder builder = new FFmpegBuilder()
+                .setInput(filename)     // Filename, or a FFmpegProbeResult
+                .overrideOutputFiles(true) // Override the output if it exists
+                .addOutput(output)   // Filename for the destination
+                .setFormat("mp4")        // Format is inferred from filename, or can be set
+                .setVideoCodec("libx265")
+                .setConstantRateFactor(28)
+                .done();
+        FFmpegExecutor executor = new FFmpegExecutor(ffmpeg, ffprobe);
+        executor.createJob(builder).run();
+//        if(replace)
+//        {
+//            File deleteInput = new File(filename);
+//            deleteInput.delete();
+//            File replacedInput = new File(filename);
+//            File replacingInput = new File(output);
+//            replacingInput.renameTo(replacedInput);
+//        }
+    }
 
     public static void main(String[] args){
 
-    //blurSegment("filmik.mp4","output.mp4",10,20,20);
-    colorBalance("filmik.mp4","output.mp4",10,20,(double) -1,"red","medium");
-
+    blurSegment("filmik.mp4","output.mp4",10,20,20,false);
+    colorBalance("output.mp4","output2.mp4",10,30,(double) -1,"red","medium",true);
+    colorBalance("output2.mp4","output3.mp4",10,30,(double) -1,"red","low",true);
+    colorBalance("output3.mp4","output4.mp4",10,30,(double) -1,"red","high",true);
+    compress("output.mp4","output5.mp4",true);
     }
 }
