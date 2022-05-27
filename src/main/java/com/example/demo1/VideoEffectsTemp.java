@@ -64,10 +64,13 @@ public class VideoEffectsTemp {
         concatenateFin(filename,output);
     }
     public static void cutPass(String filename, String output, long time1, long time2){     //Dzieli filmik na trzy
+        String input1 = filename.substring(0, filename.lastIndexOf('.')) + "1" + ".mp4";
+        String input2 = filename.substring(0, filename.lastIndexOf('.')) + "2" + ".mp4";
+        String input3 = filename.substring(0, filename.lastIndexOf('.')) + "3" + ".mp4";
         FFmpegBuilder builder1 = new FFmpegBuilder()
                 .setInput(filename)     // Filename, or a FFmpegProbeResult
                 .overrideOutputFiles(true) // Override the output if it exists
-                .addOutput(filename.substring(0, filename.lastIndexOf('.'))+"1" + ".mp4")   // Filename for the destination
+                .addOutput(input1)   // Filename for the destination
                 .setFormat("mp4")        // Format is inferred from filename, or can be set
                 .setStartOffset(0,TimeUnit.SECONDS)
                 .setDuration(time1, TimeUnit.SECONDS)
@@ -75,7 +78,7 @@ public class VideoEffectsTemp {
         FFmpegBuilder builder2 = new FFmpegBuilder()
                 .setInput(filename)     // Filename, or a FFmpegProbeResult
                 .overrideOutputFiles(true) // Override the output if it exists
-                .addOutput(filename.substring(0, filename.lastIndexOf('.'))+"2" + ".mp4")  // Filename for the destination
+                .addOutput(input2)  // Filename for the destination
                 .setFormat("mp4")        // Format is inferred from filename, or can be set
                 .setStartOffset(time1,TimeUnit.SECONDS)
                 .setDuration(time2-time1, TimeUnit.SECONDS)
@@ -83,7 +86,7 @@ public class VideoEffectsTemp {
         FFmpegBuilder builder3 = new FFmpegBuilder()
                 .setInput(filename)     // Filename, or a FFmpegProbeResult
                 .overrideOutputFiles(true) // Override the output if it exists
-                .addOutput(filename.substring(0, filename.lastIndexOf('.'))+"3" + ".mp4")   // Filename for the destination
+                .addOutput(input3)   // Filename for the destination
                 .setFormat("mp4")        // Format is inferred from filename, or can be set
                 .setStartOffset(time2,TimeUnit.SECONDS)
                 .done();
