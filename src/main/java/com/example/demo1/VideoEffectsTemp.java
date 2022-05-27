@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 public class VideoEffectsTemp {
-
+    //--------Static Defines------------------
     static FFmpeg ffmpeg;
     static {
         try {
@@ -26,89 +26,10 @@ public class VideoEffectsTemp {
             e.printStackTrace();
         }
     }
-    public static void concatenateFin(String filename, String output){      //skleja segmenty po cutPass
-        String input1 = filename.substring(0, filename.lastIndexOf('.')) + "1" + ".mp4";
-        String input2 = filename.substring(0, filename.lastIndexOf('.')) + "2edit" + ".mp4";
-        String input3 = filename.substring(0, filename.lastIndexOf('.')) + "3" + ".mp4";
-        FFmpegBuilder builder = new FFmpegBuilder()
-                .setInput(input1)
-                .addInput(input2)
-                .addInput(input3)
-                .overrideOutputFiles(true) // Override the output if it exists
-                .addOutput(output)   // Filename for the destination
-                .setFormat("mp4")        // Format is inferred from filename, or can be set
-                .done().setComplexFilter("concat=n=3:v=1:a=1");
-        FFmpegExecutor executor = new FFmpegExecutor(ffmpeg, ffprobe);
-        executor.createJob(builder).run();
-        File inputFile1 = new File(input1);
-        File inputFile2 = new File(input2);
-        File inputFile3 = new File(input3);
-        inputFile1.delete();
-        inputFile2.delete();
-        inputFile3.delete();
-    }
 
-    public static void blur(String filename, String output, int blurStrength){  //bluruje calosc
-        FFmpegBuilder builder = new FFmpegBuilder()
-                .setInput(filename)     // Filename, or a FFmpegProbeResult
-                .overrideOutputFiles(true) // Override the output if it exists
-                .addOutput(output)   // Filename for the destination
-                .setFormat("mp4")        // Format is inferred from filename, or can be set
-                .setVideoFilter("boxblur="+blurStrength)
-                .done();
-        FFmpegExecutor executor = new FFmpegExecutor(ffmpeg, ffprobe);
-        executor.createJob(builder).run();
-    }
-    public static void colorBalance(String filename, String output, long time1, long time2, double intensity, String color, String level,boolean replace){  //bluruje srodkowy segment po cutPass
-        if(level=="low")
-            level="small";
-        String colorBalance=String.valueOf(color.charAt(0))  +String.valueOf(level.charAt(0));
-        cutPass(filename,time1, time2);
-        String input = filename.substring(0, filename.lastIndexOf('.')) + "2" + ".mp4";
-        File inputFile = new File(input);
-        FFmpegBuilder builder = new FFmpegBuilder()
-                .setInput(input)     // Filename, or a FFmpegProbeResult
-                .overrideOutputFiles(true) // Override the output if it exists
-                .addOutput(filename.substring(0, filename.lastIndexOf('.'))+"2edit" + ".mp4")   // Filename for the destination
-                .setFormat("mp4")        // Format is inferred from filename, or can be set
-                .done().setComplexFilter("colorbalance="+colorBalance+"="+intensity);
-        FFmpegExecutor executor = new FFmpegExecutor(ffmpeg, ffprobe);
-        executor.createJob(builder).run();
-        inputFile.delete();
-        concatenateFin(filename,output);
-//        if(replace)
-//        {
-////            File deleteInput = new File(filename);
-////            deleteInput.delete();
-////            File replacedInput = new File(filename);
-////            File replacingInput = new File(output);
-////            replacingInput.renameTo(replacedInput);
-//        }
-    }
-    public static void blurSegment(String filename, String output, long time1, long time2, int blurStrength, boolean replace){  //bluruje srodkowy segment po cutPass
-        cutPass(filename,time1, time2);
-        String input = filename.substring(0, filename.lastIndexOf('.')) + "2" + ".mp4";
-        File inputFile = new File(input);
-        FFmpegBuilder builder = new FFmpegBuilder()
-                .setInput(input)     // Filename, or a FFmpegProbeResult
-                .overrideOutputFiles(true) // Override the output if it exists
-                .addOutput(filename.substring(0, filename.lastIndexOf('.'))+"2edit" + ".mp4")   // Filename for the destination
-                .setFormat("mp4")        // Format is inferred from filename, or can be set
-                .setVideoFilter("boxblur="+blurStrength)
-                .done();
-        FFmpegExecutor executor = new FFmpegExecutor(ffmpeg, ffprobe);
-        executor.createJob(builder).run();
-        inputFile.delete();
-        concatenateFin(filename,output);
-//        if(replace)
-//        {
-////            File deleteInput = new File(filename);
-////            deleteInput.delete();
-////            File replacedInput = new File(filename);
-////            File replacingInput = new File(output);
-////            replacingInput.renameTo(replacedInput);
-//        }
-    }
+    static FFmpegExecutor executor = new FFmpegExecutor(ffmpeg, ffprobe);
+
+    //---------Utility-------------------------
     public static void cutPass(String filename, long time1, long time2){     //Dzieli filmik na trzy
         String input1 = filename.substring(0, filename.lastIndexOf('.')) + "1" + ".mp4";
         String input2 = filename.substring(0, filename.lastIndexOf('.')) + "2" + ".mp4";
@@ -137,11 +58,32 @@ public class VideoEffectsTemp {
                 .setStartOffset(time2,TimeUnit.SECONDS)
                 .done();
 
-        FFmpegExecutor executor = new FFmpegExecutor(ffmpeg, ffprobe);
         executor.createJob(builder1).run();
         executor.createJob(builder2).run();
         executor.createJob(builder3).run();
     }
+
+    public static void concatenateFin(String filename, String output){      //skleja segmenty po cutPass
+        String input1 = filename.substring(0, filename.lastIndexOf('.')) + "1" + ".mp4";
+        String input2 = filename.substring(0, filename.lastIndexOf('.')) + "2" + ".mp4";
+        String input3 = filename.substring(0, filename.lastIndexOf('.')) + "3" + ".mp4";
+        FFmpegBuilder builder = new FFmpegBuilder()
+                .setInput(input1)
+                .addInput(input2)
+                .addInput(input3)
+                .overrideOutputFiles(true) // Override the output if it exists
+                .addOutput(output)   // Filename for the destination
+                .setFormat("mp4")        // Format is inferred from filename, or can be set
+                .done().setComplexFilter("concat=n=3:v=1:a=1");
+        executor.createJob(builder).run();
+        File inputFile1 = new File(input1);
+        File inputFile2 = new File(input2);
+        File inputFile3 = new File(input3);
+        inputFile1.delete();
+        inputFile2.delete();
+        inputFile3.delete();
+    }
+
 
     public static void compress(String filename, String output, boolean replace){  //bluruje calosc
         FFmpegBuilder builder = new FFmpegBuilder()
@@ -152,24 +94,77 @@ public class VideoEffectsTemp {
                 .setVideoCodec("libx265")
                 .setConstantRateFactor(28)
                 .done();
-        FFmpegExecutor executor = new FFmpegExecutor(ffmpeg, ffprobe);
         executor.createJob(builder).run();
-//        if(replace)
-//        {
-//            File deleteInput = new File(filename);
-//            deleteInput.delete();
-//            File replacedInput = new File(filename);
-//            File replacingInput = new File(output);
-//            replacingInput.renameTo(replacedInput);
-//        }
+        if(replace)
+            replace(filename,output);
     }
 
+    public static void replace(String replaced, String replacer){
+        File deleteInput = new File(replaced);
+        deleteInput.delete();
+        File replacedInput = new File(replaced);
+        File replacingInput = new File(replacer);
+        replacingInput.renameTo(replacedInput);
+    }
+
+    //-----------------Raw Filters--------------------------
+    public static void blur(String filename, String output, int blurStrength){  //bluruje calosc
+        FFmpegBuilder builder = new FFmpegBuilder()
+                .setInput(filename)     // Filename, or a FFmpegProbeResult
+                .overrideOutputFiles(true) // Override the output if it exists
+                .addOutput(output)   // Filename for the destination
+                .setFormat("mp4")        // Format is inferred from filename, or can be set
+                .setVideoFilter("boxblur="+blurStrength)
+                .done();
+        executor.createJob(builder).run();
+        File inputFile = new File(filename);
+        inputFile.delete();
+    }
+    public static void colorBalance(String filename, String output, long time1, long time2, double intensity, String color, String level){  //bluruje srodkowy segment po cutPass
+        if(level.equals("low"))
+            level="s";
+        String colorBalance=String.valueOf(Character.toLowerCase(color.charAt(0)))  +String.valueOf(Character.toLowerCase(level.charAt(0)));
+        String input = filename.substring(0, filename.lastIndexOf('.')) + "2" + ".mp4";
+        File inputFile = new File(input);
+        FFmpegBuilder builder = new FFmpegBuilder()
+                .setInput(input)     // Filename, or a FFmpegProbeResult
+                .overrideOutputFiles(true) // Override the output if it exists
+                .addOutput(filename.substring(0, filename.lastIndexOf('.'))+"2edit" + ".mp4")   // Filename for the destination
+                .setFormat("mp4")        // Format is inferred from filename, or can be set
+                .done().setComplexFilter("colorbalance="+colorBalance+"="+intensity);
+        executor.createJob(builder).run();
+        inputFile.delete();
+    }
+
+    //------------Filter Callers-----------------------------
+
+    public static void callBlurSegment(String filename, String output, Long time1, Long time2, int blurStrength, boolean replace){
+        String intermediateInput = filename.substring(0, filename.lastIndexOf('.')) + "2" + ".mp4";
+        String intermediateOutput = filename.substring(0, filename.lastIndexOf('.'))+"2edit" + ".mp4";
+        cutPass(filename,time1,time2);
+        blur(intermediateInput,intermediateOutput,blurStrength);
+        replace(intermediateInput,intermediateOutput);
+        concatenateFin(filename,output);
+        if(replace)
+            replace(filename,output);
+
+    }
+
+    public static void callColorBalanceSegment(String filename, String output, Long time1, Long time2, double intensity, String color, String level, boolean replace){
+        String intermediateInput = filename.substring(0, filename.lastIndexOf('.')) + "2" + ".mp4";
+        String intermediateOutput = filename.substring(0, filename.lastIndexOf('.'))+"2edit" + ".mp4";
+        cutPass(filename,time1,time2);
+        colorBalance(filename,output,time1,time2,intensity,color,level);
+        replace(intermediateInput,intermediateOutput);
+        concatenateFin(filename,output);
+        if(replace)
+            replace(filename,output);
+    }
     public static void main(String[] args){
 
-    blurSegment("filmik.mp4","output.mp4",10,20,20,false);
-    colorBalance("output.mp4","output2.mp4",10,30,(double) -1,"red","medium",true);
-    colorBalance("output2.mp4","output3.mp4",10,30,(double) -1,"red","low",true);
-    colorBalance("output3.mp4","output4.mp4",10,30,(double) -1,"red","high",true);
-    compress("output.mp4","output5.mp4",true);
+        compress("filmik.mp4","output.mp4",false);          // kompresuje filmik, tworzy nowa kopie
+        callBlurSegment("output.mp4","a",(long) 10,(long) 30,30,true);  //bluruje od 0:10 do 0:30, zamienia plik
+        compress("output.mp4","a",true);    //kompresuje plik, zamienia plik
+        callColorBalanceSegment("output.mp4","blueless.mp4",(long) 1, (long) 20,-1,"blue","medium",false); //usuwa srednie niebieskie kolory od 0:00 do 0:20, tworzy nowa kopie
     }
 }
