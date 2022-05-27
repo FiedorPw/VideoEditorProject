@@ -5,6 +5,7 @@ import net.bramp.ffmpeg.*;
 import net.bramp.ffmpeg.builder.FFmpegBuilder;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 public class VideoEffectsTemp {
     public static void main(String[] args) throws IOException {
@@ -32,12 +33,17 @@ public class VideoEffectsTemp {
 //                .setStrict(FFmpegBuilder.Strict.EXPERIMENTAL) // Allow FFmpeg to use experimental specs
                 .setVideoFilter("boxblur=10")
 
+                .setStartOffset(20,TimeUnit.SECONDS)
+                .setDuration(10, TimeUnit.SECONDS)
+
                 .done();
 
         FFmpegExecutor executor = new FFmpegExecutor(ffmpeg, ffprobe);
 
 // Run a one-pass encode
         executor.createJob(builder).run();
+
+
 
     }
 }
