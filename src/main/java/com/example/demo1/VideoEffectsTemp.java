@@ -25,7 +25,7 @@ public class VideoEffectsTemp {
             e.printStackTrace();
         }
     }
-    public static void concatenateFin(String filename, String output){
+    public static void concatenateFin(String filename, String output){      //skleja segmenty po cutPass
         FFmpegBuilder builder = new FFmpegBuilder()
                 .setInput(filename.substring(0, filename.lastIndexOf('.'))+"1" + ".mp4")
                 .addInput(filename.substring(0, filename.lastIndexOf('.'))+"2edit" + ".mp4")
@@ -38,20 +38,20 @@ public class VideoEffectsTemp {
         executor.createJob(builder).run();
 
     }
-    public static void blur(String filename, String output, long time1, long time2){
+    public static void blur(String filename, String output, long time1, long time2, int blurStrength){  //bluruje srodkowy segment po cutPass
         cutPass(filename,output,time1, time2);
         FFmpegBuilder builder = new FFmpegBuilder()
                 .setInput(filename.substring(0, filename.lastIndexOf('.'))+"2" + ".mp4")     // Filename, or a FFmpegProbeResult
                 .overrideOutputFiles(true) // Override the output if it exists
                 .addOutput(filename.substring(0, filename.lastIndexOf('.'))+"2edit" + ".mp4")   // Filename for the destination
                 .setFormat("mp4")        // Format is inferred from filename, or can be set
-                .setVideoFilter("boxblur=10")
+                .setVideoFilter("boxblur="+blurStrength)
                 .done();
         FFmpegExecutor executor = new FFmpegExecutor(ffmpeg, ffprobe);
         executor.createJob(builder).run();
         concatenateFin(filename,output);
     }
-    public static void cutPass(String filename, String output, long time1, long time2){
+    public static void cutPass(String filename, String output, long time1, long time2){     //Dzieli filmik na trzy
         FFmpegBuilder builder1 = new FFmpegBuilder()
                 .setInput(filename)     // Filename, or a FFmpegProbeResult
                 .overrideOutputFiles(true) // Override the output if it exists
@@ -85,7 +85,7 @@ public class VideoEffectsTemp {
 
     public static void main(String[] args){
 
-    blur("filmik.mp4","output.mp4",10,20);
+    blur("filmik.mp4","output.mp4",10,20,20);
 
     }
 }
