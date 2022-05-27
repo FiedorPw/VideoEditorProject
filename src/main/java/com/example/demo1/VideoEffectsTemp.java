@@ -3,6 +3,7 @@ package com.example.demo1;
 import net.bramp.ffmpeg.*;
 import net.bramp.ffmpeg.builder.FFmpegBuilder;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
@@ -26,22 +27,32 @@ public class VideoEffectsTemp {
         }
     }
     public static void concatenateFin(String filename, String output){      //skleja segmenty po cutPass
+        String input1 = filename.substring(0, filename.lastIndexOf('.')) + "1" + ".mp4";
+        String input2 = filename.substring(0, filename.lastIndexOf('.')) + "2edit" + ".mp4";
+        String input3 = filename.substring(0, filename.lastIndexOf('.')) + "3" + ".mp4";
         FFmpegBuilder builder = new FFmpegBuilder()
-                .setInput(filename.substring(0, filename.lastIndexOf('.'))+"1" + ".mp4")
-                .addInput(filename.substring(0, filename.lastIndexOf('.'))+"2edit" + ".mp4")
-                .addInput(filename.substring(0, filename.lastIndexOf('.'))+"3" + ".mp4")
+                .setInput(input1)
+                .addInput(input2)
+                .addInput(input3)
                 .overrideOutputFiles(true) // Override the output if it exists
                 .addOutput(output)   // Filename for the destination
                 .setFormat("mp4")        // Format is inferred from filename, or can be set
                 .done().setComplexFilter("concat=n=3:v=1:a=1");
         FFmpegExecutor executor = new FFmpegExecutor(ffmpeg, ffprobe);
         executor.createJob(builder).run();
-
+        File inputFile1 = new File(input1);
+        File inputFile2 = new File(input2);
+        File inputFile3 = new File(input3);
+        inputFile1.delete();
+        inputFile2.delete();
+        inputFile3.delete();
     }
     public static void blur(String filename, String output, long time1, long time2, int blurStrength){  //bluruje srodkowy segment po cutPass
         cutPass(filename,output,time1, time2);
+        String input = filename.substring(0, filename.lastIndexOf('.')) + "2" + ".mp4";
+        File inputFile = new File(input);
         FFmpegBuilder builder = new FFmpegBuilder()
-                .setInput(filename.substring(0, filename.lastIndexOf('.'))+"2" + ".mp4")     // Filename, or a FFmpegProbeResult
+                .setInput(input)     // Filename, or a FFmpegProbeResult
                 .overrideOutputFiles(true) // Override the output if it exists
                 .addOutput(filename.substring(0, filename.lastIndexOf('.'))+"2edit" + ".mp4")   // Filename for the destination
                 .setFormat("mp4")        // Format is inferred from filename, or can be set
@@ -49,6 +60,7 @@ public class VideoEffectsTemp {
                 .done();
         FFmpegExecutor executor = new FFmpegExecutor(ffmpeg, ffprobe);
         executor.createJob(builder).run();
+        inputFile.delete();
         concatenateFin(filename,output);
     }
     public static void cutPass(String filename, String output, long time1, long time2){     //Dzieli filmik na trzy
