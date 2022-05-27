@@ -47,7 +47,20 @@ public class VideoEffectsTemp {
         inputFile2.delete();
         inputFile3.delete();
     }
-    public static void blur(String filename, String output, long time1, long time2, int blurStrength){  //bluruje srodkowy segment po cutPass
+
+    public static void blur(String filename, String output, int blurStrength){  //bluruje calosc
+        FFmpegBuilder builder = new FFmpegBuilder()
+                .setInput(filename)     // Filename, or a FFmpegProbeResult
+                .overrideOutputFiles(true) // Override the output if it exists
+                .addOutput(output)   // Filename for the destination
+                .setFormat("mp4")        // Format is inferred from filename, or can be set
+                .setVideoFilter("boxblur="+blurStrength)
+                .done();
+        FFmpegExecutor executor = new FFmpegExecutor(ffmpeg, ffprobe);
+        executor.createJob(builder).run();
+    }
+
+    public static void blurSegment(String filename, String output, long time1, long time2, int blurStrength){  //bluruje srodkowy segment po cutPass
         cutPass(filename,time1, time2);
         String input = filename.substring(0, filename.lastIndexOf('.')) + "2" + ".mp4";
         File inputFile = new File(input);
@@ -100,7 +113,7 @@ public class VideoEffectsTemp {
 
     public static void main(String[] args){
 
-    blur("filmik.mp4","output.mp4",10,20,20);
+    blurSegment("filmik.mp4","output.mp4",10,20,20);
 
     }
 }
