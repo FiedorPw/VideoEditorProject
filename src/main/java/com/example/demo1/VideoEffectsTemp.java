@@ -63,7 +63,7 @@ public class VideoEffectsTemp {
         executor.createJob(builder3).run();
     }
 
-    public static void split(String filename, long time1){     //Dzieli filmik na trzy
+    public static void split(String filename, long time1){     //Dzieli filmik na dwa
         String input1 = filename.substring(0, filename.lastIndexOf('.')) + "1" + ".mp4";
         String input3 = filename.substring(0, filename.lastIndexOf('.')) + "3" + ".mp4";
         FFmpegBuilder builder1 = new FFmpegBuilder()
