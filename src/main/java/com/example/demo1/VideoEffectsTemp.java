@@ -241,7 +241,7 @@ public class VideoEffectsTemp {
             replace(filename1,output);
     }
     public static void callVolumeManipulation(String filename,double volume,boolean replace){
-        String intermediateOutput = filename.substring(0, filename.lastIndexOf('.'))+"2edit" + ".mp4";
+        String intermediateOutput = filename.substring(0, filename.lastIndexOf('.'))+"edit" + ".mp4";
         volumeManipulation(filename,volume);
         if(replace)
             replace(filename,intermediateOutput);
@@ -255,6 +255,6 @@ public class VideoEffectsTemp {
     //    compress("output.mp4","a",true);    //kompresuje plik, zamienia plik
         callColorBalanceSegment("output.mp4","blueless.mp4",(long) 1, (long) 20,-1,"blue","medium",false); //usuwa srednie niebieskie kolory od 0:00 do 0:20, tworzy nowa kopie
         callInsertMid("output.mp4","blueless.mp4","alfa.mp4",(long) 20,false);
-        volumeManipulation("alfa.mp4",-1);
+        callVolumeManipulation("alfa.mp4",0,true);
     }
 }
