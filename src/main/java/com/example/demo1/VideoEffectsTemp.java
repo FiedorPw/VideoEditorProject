@@ -63,6 +63,29 @@ public class VideoEffectsTemp {
         executor.createJob(builder3).run();
     }
 
+    public static void split(String filename, long time1){     //Dzieli filmik na trzy
+        String input1 = filename.substring(0, filename.lastIndexOf('.')) + "1" + ".mp4";
+        String input3 = filename.substring(0, filename.lastIndexOf('.')) + "3" + ".mp4";
+        FFmpegBuilder builder1 = new FFmpegBuilder()
+                .setInput(filename)     // Filename, or a FFmpegProbeResult
+                .overrideOutputFiles(true) // Override the output if it exists
+                .addOutput(input1)   // Filename for the destination
+                .setFormat("mp4")        // Format is inferred from filename, or can be set
+                .setStartOffset(0,TimeUnit.SECONDS)
+                .setDuration(time1, TimeUnit.SECONDS)
+                .done();
+        FFmpegBuilder builder2 = new FFmpegBuilder()
+                .setInput(filename)     // Filename, or a FFmpegProbeResult
+                .overrideOutputFiles(true) // Override the output if it exists
+                .addOutput(input3)  // Filename for the destination
+                .setFormat("mp4")        // Format is inferred from filename, or can be set
+                .setStartOffset(time1,TimeUnit.SECONDS)
+                .done();
+
+        executor.createJob(builder1).run();
+        executor.createJob(builder2).run();
+    }
+
     public static void concatenateFin(String filename, String output){      //skleja segmenty po cutPass
         String input1 = filename.substring(0, filename.lastIndexOf('.')) + "1" + ".mp4";
         String input2 = filename.substring(0, filename.lastIndexOf('.')) + "2" + ".mp4";
@@ -105,6 +128,35 @@ public class VideoEffectsTemp {
         File replacedInput = new File(replaced);
         File replacingInput = new File(replacer);
         replacingInput.renameTo(replacedInput);
+    }
+
+    public static void insert(String filename1, String filename2, String output){      //skleja segmenty po cutPass
+        String input1 = filename1.substring(0, filename1.lastIndexOf('.')) + "1" + ".mp4";
+        String input2 = filename1.substring(0, filename1.lastIndexOf('.')) + "3" + ".mp4";
+        FFmpegBuilder builder = new FFmpegBuilder()
+                .setInput(input1)
+                .addInput(filename2)
+                .addInput(input2)
+                .overrideOutputFiles(true) // Override the output if it exists
+                .addOutput(output)   // Filename for the destination
+                .setFormat("mp4")        // Format is inferred from filename, or can be set
+                .done().setComplexFilter("concat=n=3:v=1:a=1");
+        executor.createJob(builder).run();
+        File inputFile1 = new File(input1);
+        File inputFile2 = new File(input2);
+        inputFile1.delete();
+        inputFile2.delete();
+    }
+
+    public static void append(String filename1, String filename2, String output){      //skleja segmenty po cutPass
+        FFmpegBuilder builder = new FFmpegBuilder()
+                .setInput(filename1)
+                .addInput(filename2)
+                .overrideOutputFiles(true) // Override the output if it exists
+                .addOutput(output)   // Filename for the destination
+                .setFormat("mp4")        // Format is inferred from filename, or can be set
+                .done().setComplexFilter("concat=n=2:v=1:a=1");
+        executor.createJob(builder).run();
     }
 
     //-----------------Raw Filters--------------------------
@@ -160,11 +212,34 @@ public class VideoEffectsTemp {
         if(replace)
             replace(filename,output);
     }
+
+    public static void callInsertStart(String filename1, String filename2, String output,boolean replace){
+        append(filename2,filename1,output);
+        if(replace)
+            replace(filename2,output);
+    }
+
+    public static void callInsertMid(String filename1, String filename2, String output, Long time1, boolean replace){
+        split(filename1,time1);
+        insert(filename1,filename2,output);
+        if(replace)
+            replace(filename1,output);
+    }
+
+    public static void callInsertEnd(String filename1, String filename2, String output,boolean replace){
+        append(filename1,filename2,output);
+        if(replace)
+            replace(filename1,output);
+    }
+
+
+
     public static void main(String[] args){
 
         compress("filmik.mp4","output.mp4",false);          // kompresuje filmik, tworzy nowa kopie
         callBlurSegment("output.mp4","a",(long) 10,(long) 30,30,true);  //bluruje od 0:10 do 0:30, zamienia plik
         compress("output.mp4","a",true);    //kompresuje plik, zamienia plik
         callColorBalanceSegment("output.mp4","blueless.mp4",(long) 1, (long) 20,-1,"blue","medium",false); //usuwa srednie niebieskie kolory od 0:00 do 0:20, tworzy nowa kopie
+        callInsertMid("output.mp4","blueless.mp4","alfa.mp4",(long) 20,false);
     }
 }
