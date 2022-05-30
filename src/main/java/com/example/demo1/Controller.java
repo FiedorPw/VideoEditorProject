@@ -21,13 +21,13 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 
+import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.media.Media;
 
 import javafx.scene.media.MediaPlayer;
 
 import javafx.scene.media.MediaView;
-
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -39,9 +39,11 @@ public class Controller implements Initializable{
 
     @FXML
     private MediaView mediaView;
+    @FXML
+    private Label time;
 
-//    @FXML
-//    private Button playButton, pauseButton, resetButton;
+    @FXML
+    private Button playButton, pauseButton, resetButton;
 
     @FXML
     private Slider timeSlider;
@@ -62,7 +64,7 @@ public class Controller implements Initializable{
 
 
 
-        file = new File("filmik.mp4");
+        file = new File("output.mp4");
         Modifyer modifyer = new Modifyer(file);
         modifyer.setRate(1.0);
         modifyer.setVolume(1.0);
@@ -83,7 +85,6 @@ public class Controller implements Initializable{
                 if (timeSlider.isPressed()) {
                     double val = timeSlider.getValue();
                     mediaPlayer.seek(new Duration(val * 60 * 1000));
-                    System.out.println(val * 60 * 1000);
                 }
             }
         });
@@ -97,7 +98,7 @@ public class Controller implements Initializable{
         mediaPlayer.play();
     }
 
-
+    public void showTime(){mediaPlayer.getCurrentTime();}
 
     public void pauseMedia() {
         mediaPlayer.pause();

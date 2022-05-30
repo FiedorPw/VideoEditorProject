@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.media.MediaView?>
@@ -16,15 +17,20 @@
 
    <children>
 
-      <MediaView fx:id="mediaView" fitHeight="500.0" fitWidth="700.0" layoutX="102.0" layoutY="106.0" />
+      <MediaView fx:id="mediaView" fitHeight="500.0" fitWidth="700.0" layoutX="84.0" layoutY="32.0" />
 
-      <Button fx:id="pauseButton" layoutX="426.0" layoutY="667.0" mnemonicParsing="false" onAction="#pauseMedia" text="PAUSE" />
+      <Button fx:id="pauseButton" layoutX="70.0" layoutY="667.0" mnemonicParsing="false" onAction="#pauseMedia" text="PAUSE" />
 
-      <Button fx:id="playButton" layoutX="335.0" layoutY="667.0" mnemonicParsing="false" onAction="#playMedia" text="PLAY" />
+      <Button fx:id="playButton" layoutX="14.0" layoutY="667.0" mnemonicParsing="false" onAction="#playMedia" text="PLAY" />
 
-      <Button fx:id="resetButton" layoutX="520.0" layoutY="667.0" mnemonicParsing="false" onAction="#resetMedia" text="RESET" />
-      <Slider fx:id="timeSlider" layoutX="14.0" layoutY="624.0" max="3.0" prefHeight="14.0" prefWidth="883.0" />
-      <Button layoutX="802.0" layoutY="667.0" mnemonicParsing="false" onAction="#turnOnVideoEditor" text="Video Editor" />
+      <Button fx:id="resetButton" layoutX="134.0" layoutY="667.0" mnemonicParsing="false" onAction="#resetMedia" text="RESET" />
+      <Slider fx:id="timeSlider" layoutX="14.0" layoutY="624.0" majorTickUnit="0.1" max="3.0" prefHeight="14.0" prefWidth="883.0" showTickLabels="true" showTickMarks="true" />
+      <Button layoutX="476.0" layoutY="667.0" mnemonicParsing="false" onAction="#turnOnVideoEditor" text="BLUR" />
+      <Button layoutX="195.0" layoutY="667.0" mnemonicParsing="false" text="ZMIANA GŁOŚNOŚCI" />
+      <Button layoutX="641.0" layoutY="667.0" mnemonicParsing="false" text="Button" />
+      <Button layoutX="338.0" layoutY="667.0" mnemonicParsing="false" text="ZMIANA PRĘDKOŚCI" />
+      <Button layoutX="538.0" layoutY="667.0" mnemonicParsing="false" text="WYCINANIE" />
+      <Label fx:id="time" layoutX="817.0" layoutY="607.0" prefHeight="17.0" prefWidth="44.0" text="TIME:" />
 
    </children>
 
