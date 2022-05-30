@@ -172,20 +172,29 @@ public class VideoEffectsTemp {
         File inputFile = new File(filename);
         inputFile.delete();
     }
-    public static void colorBalance(String filename, String output, long time1, long time2, double intensity, String color, String level){  //bluruje srodkowy segment po cutPass
+    public static void colorBalance(String filename, double intensity, String color, String level){  //bluruje srodkowy segment po cutPass
         if(level.equals("low"))
             level="s";
         String colorBalance=String.valueOf(Character.toLowerCase(color.charAt(0)))  +String.valueOf(Character.toLowerCase(level.charAt(0)));
-        String input = filename.substring(0, filename.lastIndexOf('.')) + "2" + ".mp4";
-        File inputFile = new File(input);
+        File inputFile = new File(filename);
         FFmpegBuilder builder = new FFmpegBuilder()
-                .setInput(input)     // Filename, or a FFmpegProbeResult
+                .setInput(filename)     // Filename, or a FFmpegProbeResult
                 .overrideOutputFiles(true) // Override the output if it exists
-                .addOutput(filename.substring(0, filename.lastIndexOf('.'))+"2edit" + ".mp4")   // Filename for the destination
+                .addOutput(filename.substring(0, filename.lastIndexOf('.'))+"edit" + ".mp4")   // Filename for the destination
                 .setFormat("mp4")        // Format is inferred from filename, or can be set
                 .done().setComplexFilter("colorbalance="+colorBalance+"="+intensity);
         executor.createJob(builder).run();
         inputFile.delete();
+    }
+
+    public static void volumeManipulation(String filename, double volume){  //zmienia glosnosc
+        FFmpegBuilder builder = new FFmpegBuilder()
+                .setInput(filename)     // Filename, or a FFmpegProbeResult
+                .overrideOutputFiles(true) // Override the output if it exists
+                .addOutput(filename.substring(0, filename.lastIndexOf('.'))+"edit" + ".mp4")   // Filename for the destination
+                .setFormat("mp4")        // Format is inferred from filename, or can be set
+                .done().setComplexFilter("volume="+volume);
+        executor.createJob(builder).run();
     }
 
     //------------Filter Callers-----------------------------
@@ -206,7 +215,7 @@ public class VideoEffectsTemp {
         String intermediateInput = filename.substring(0, filename.lastIndexOf('.')) + "2" + ".mp4";
         String intermediateOutput = filename.substring(0, filename.lastIndexOf('.'))+"2edit" + ".mp4";
         cutPass(filename,time1,time2);
-        colorBalance(filename,output,time1,time2,intensity,color,level);
+        colorBalance(intermediateInput,intensity,color,level);
         replace(intermediateInput,intermediateOutput);
         concatenateFin(filename,output);
         if(replace)
@@ -231,15 +240,21 @@ public class VideoEffectsTemp {
         if(replace)
             replace(filename1,output);
     }
-
+    public static void callVolumeManipulation(String filename,double volume,boolean replace){
+        String intermediateOutput = filename.substring(0, filename.lastIndexOf('.'))+"2edit" + ".mp4";
+        volumeManipulation(filename,volume);
+        if(replace)
+            replace(filename,intermediateOutput);
+    }
 
 
     public static void main(String[] args){
 
-        compress("filmik.mp4","output.mp4",false);          // kompresuje filmik, tworzy nowa kopie
+    //    compress("filmik.mp4","output.mp4",false);          // kompresuje filmik, tworzy nowa kopie
         callBlurSegment("output.mp4","a",(long) 10,(long) 30,30,true);  //bluruje od 0:10 do 0:30, zamienia plik
-        compress("output.mp4","a",true);    //kompresuje plik, zamienia plik
+    //    compress("output.mp4","a",true);    //kompresuje plik, zamienia plik
         callColorBalanceSegment("output.mp4","blueless.mp4",(long) 1, (long) 20,-1,"blue","medium",false); //usuwa srednie niebieskie kolory od 0:00 do 0:20, tworzy nowa kopie
         callInsertMid("output.mp4","blueless.mp4","alfa.mp4",(long) 20,false);
+        volumeManipulation("alfa.mp4",-1);
     }
 }
