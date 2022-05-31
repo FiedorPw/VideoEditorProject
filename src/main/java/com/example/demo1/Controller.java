@@ -67,7 +67,6 @@ public class Controller implements Initializable{
     private Stage stage;
 
 
-
     @Override
 
     public void initialize(URL arg0, ResourceBundle arg1) {
@@ -85,7 +84,6 @@ public class Controller implements Initializable{
         mds2.setShowTickMarks(true);
         mds1.setShowTickLabels(true);
         mds1.setShowTickMarks(true);
-
         mediaPlayer.currentTimeProperty().addListener(new ChangeListener<Duration>() {
             @Override
             public void changed(ObservableValue<? extends Duration> observable, Duration oldValue, Duration newValue) {
@@ -140,11 +138,47 @@ public class Controller implements Initializable{
              minutes, seconds);
     }
     public void changeSpeed(){
-
     }
 
     public void blur(){
-        Vid.blur(file.getName(),20);
+        mediaPlayer.pause();
+        Vid.blur(file.getName(),20);Vid.replace(file.getName(), file.getName().substring(0, file.getName().lastIndexOf('.'))+"edit" + ".mp4");
+        file = new File(file.getName().substring(0, file.getName().lastIndexOf('.'))+"edit" + ".mp4");
+        Modifyer modifyer = new Modifyer(file);
+        modifyer.setRate(1.0);
+        modifyer.setVolume(0.0);
+        media = modifyer.getMedia();
+        mediaPlayer = modifyer.getMediaPlayer();
+        mediaPlayer.setAutoPlay(false);
+        mds2.setShowTickLabels(true);
+        mds2.setShowTickMarks(true);
+        mds1.setShowTickLabels(true);
+        mds1.setShowTickMarks(true);
+
+        mediaPlayer.currentTimeProperty().addListener(new ChangeListener<Duration>() {
+            @Override
+            public void changed(ObservableValue<? extends Duration> observable, Duration oldValue, Duration newValue) {
+                //coding...
+                Duration d = mediaPlayer.getCurrentTime();timeSlider.setMax(mediaPlayer.getTotalDuration().toMinutes());mds1.setMax(mediaPlayer.getTotalDuration().toMinutes());mds2.setMax(mediaPlayer.getTotalDuration().toMinutes());
+                timeSlider.setValue(d.toMinutes());
+                currentTime.setText(getTime(mediaPlayer.getCurrentTime()));
+            }
+        });
+        System.out.println(mediaPlayer.getTotalDuration().toSeconds());
+        //timeSlider.setMax(mediaPlayer.getTotalDuration().toMinutes());
+        timeSlider.valueProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                if (timeSlider.isPressed()) {
+                    double val = timeSlider.getValue();
+                    mediaPlayer.seek(new Duration(val * 60 * 1000));
+                }
+            }
+        });
+        timeSlider.setShowTickLabels(true);
+        timeSlider.setShowTickMarks(true);
+        mediaPlayer.setAutoPlay(false);
+        mediaView.setMediaPlayer(mediaPlayer);
     }
 
     public void cutting(){
