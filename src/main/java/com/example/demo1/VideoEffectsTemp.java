@@ -285,6 +285,5 @@ public class VideoEffectsTemp {
         //   compress("output.mp4","a",true);    //kompresuje plik, zamienia plik
         // callColorBalanceSegment("output.mp4","blueless.mp4",(long) 1, (long) 20,-1,"blue","medium",false); //usuwa srednie niebieskie kolory od 0:00 do 0:20, tworzy nowa kopie
         // callInsertMid("output.mp4","blueless.mp4","alfa.mp4",(long) 20,false);
-        // callVolumeManipulation("alfa.mp4",0,true);
     }
 }
