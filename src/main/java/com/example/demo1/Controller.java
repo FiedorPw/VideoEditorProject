@@ -15,22 +15,26 @@ import javafx.beans.binding.Bindings;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
+import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
 
 import javafx.scene.media.MediaPlayer;
 
 import javafx.scene.media.MediaView;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -48,10 +52,10 @@ public class Controller implements Initializable{
     private Label currentTime;
 
     @FXML
-    private Button playButton, pauseButton, resetButton;
+    private Button playButton, pauseButton, resetButton, fileChoose;
 
     @FXML
-    private Slider timeSlider;
+    private Slider timeSlider, mds1, mds2;
 
     private File file;
 
@@ -76,13 +80,16 @@ public class Controller implements Initializable{
         media = modifyer.getMedia();
         mediaPlayer = modifyer.getMediaPlayer();
         mediaPlayer.setAutoPlay(false);
-
+        mds2.setShowTickLabels(true);
+        mds2.setShowTickMarks(true);
+        mds1.setShowTickLabels(true);
+        mds1.setShowTickMarks(true);
 
         mediaPlayer.currentTimeProperty().addListener(new ChangeListener<Duration>() {
             @Override
             public void changed(ObservableValue<? extends Duration> observable, Duration oldValue, Duration newValue) {
                 //coding...
-                Duration d = mediaPlayer.getCurrentTime();timeSlider.setMax(mediaPlayer.getTotalDuration().toMinutes());
+                Duration d = mediaPlayer.getCurrentTime();timeSlider.setMax(mediaPlayer.getTotalDuration().toMinutes());mds1.setMax(mediaPlayer.getTotalDuration().toMinutes());mds2.setMax(mediaPlayer.getTotalDuration().toMinutes());
                 timeSlider.setValue(d.toMinutes());
                 currentTime.setText(getTime(mediaPlayer.getCurrentTime()));
             }
@@ -109,6 +116,9 @@ public class Controller implements Initializable{
 
     public void pauseMedia() {
         mediaPlayer.pause();
+    }
+    public void fileChooser(){
+
     }
     public void colorBalance(){
 

@@ -17,7 +17,7 @@
 
    <children>
 
-      <MediaView fx:id="mediaView" fitHeight="500.0" fitWidth="700.0" layoutX="179.0" layoutY="46.0" />
+      <MediaView fx:id="mediaView" fitHeight="500.0" fitWidth="700.0" layoutX="251.0" layoutY="46.0" />
 
       <Button fx:id="pauseButton" layoutX="72.0" layoutY="662.0" mnemonicParsing="false" onAction="#pauseMedia" text="PAUSE" />
 
@@ -30,14 +30,15 @@
       <Button layoutX="609.0" layoutY="662.0" mnemonicParsing="false" onAction="#merge" text="ŁĄCZENIE WIDEO" />
       <Button layoutX="330.0" layoutY="662.0" mnemonicParsing="false" onAction="#changeSpeed" text="ZMIANA PRĘDKOŚCI" />
       <Button layoutX="521.0" layoutY="662.0" mnemonicParsing="false" onAction="#cutting" text="WYCINANIE" />
-      <Label fx:id="time" layoutX="928.0" layoutY="607.0" prefHeight="17.0" prefWidth="44.0" text="TIME:" />
+      <Label fx:id="time" layoutX="1047.0" layoutY="607.0" prefHeight="17.0" prefWidth="44.0" text="TIME:" />
       <Button layoutX="983.0" layoutY="662.0" mnemonicParsing="false" onAction="#deleteChanges" text="COFNIJ ZMIANY" />
       <Button layoutX="870.0" layoutY="662.0" mnemonicParsing="false" onAction="#saveChanges" text="ZAPISZ ZMIANY" />
-      <Label fx:id="currentTime" layoutX="983.0" layoutY="607.0" text="0:00" />
-      <Slider layoutX="16.0" layoutY="687.0" max="1.0" prefHeight="38.0" prefWidth="1154.0" showTickLabels="true" showTickMarks="true" />
-      <Slider layoutX="16.0" layoutY="718.0" max="1.0" prefHeight="38.0" prefWidth="1154.0" showTickLabels="true" showTickMarks="true" />
+      <Label fx:id="currentTime" layoutX="1102.0" layoutY="607.0" text="0:00" />
+      <Slider fx:id="mds1" layoutX="16.0" layoutY="687.0" max="1.0" prefHeight="38.0" prefWidth="1154.0" showTickLabels="true" showTickMarks="true" />
+      <Slider fx:id="mds2" layoutX="16.0" layoutY="718.0" max="1.0" prefHeight="38.0" prefWidth="1154.0" showTickLabels="true" showTickMarks="true" />
       <Button layoutX="729.0" layoutY="662.0" mnemonicParsing="false" onAction="#colorBalance" text="BALANS KOLORÓW" />
       <Button layoutX="1098.0" layoutY="662.0" mnemonicParsing="false" onAction="#eksport" text="EKSPORT" />
+      <Button fx:id="fileChoose" layoutX="19.0" layoutY="756.0" mnemonicParsing="false" onAction="#fileChooser" text="WYBIERZ PLIK" />
 
    </children>
 

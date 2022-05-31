@@ -34,10 +34,11 @@
       <Button layoutX="983.0" layoutY="662.0" mnemonicParsing="false" onAction="#deleteChanges" text="COFNIJ ZMIANY" />
       <Button layoutX="870.0" layoutY="662.0" mnemonicParsing="false" onAction="#saveChanges" text="ZAPISZ ZMIANY" />
       <Label fx:id="currentTime" layoutX="1102.0" layoutY="607.0" text="0:00" />
-      <Slider layoutX="16.0" layoutY="687.0" max="1.0" prefHeight="38.0" prefWidth="1154.0" showTickLabels="true" showTickMarks="true" />
-      <Slider layoutX="16.0" layoutY="718.0" max="1.0" prefHeight="38.0" prefWidth="1154.0" showTickLabels="true" showTickMarks="true" />
+      <Slider fx:id="mds1" layoutX="16.0" layoutY="687.0" majorTickUnit="0.1" max="1.0" prefHeight="38.0" prefWidth="1154.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" />
+      <Slider fx:id="mds2" layoutX="16.0" layoutY="718.0" majorTickUnit="0.1" max="1.0" prefHeight="38.0" prefWidth="1154.0" showTickLabels="true" showTickMarks="true" />
       <Button layoutX="729.0" layoutY="662.0" mnemonicParsing="false" onAction="#colorBalance" text="BALANS KOLORÓW" />
       <Button layoutX="1098.0" layoutY="662.0" mnemonicParsing="false" onAction="#eksport" text="EKSPORT" />
+      <Button fx:id="fileChoose" layoutX="19.0" layoutY="756.0" mnemonicParsing="false" onAction="#fileChooser" text="WYBIERZ PLIK" />
 
    </children>
 
