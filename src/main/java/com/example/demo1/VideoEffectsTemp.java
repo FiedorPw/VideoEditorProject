@@ -209,6 +209,16 @@ public class VideoEffectsTemp {
         executor.createJob(builder).run();
     }
 
+    public static void denoise(String filename){  //zmienia glosnosc
+        FFmpegBuilder builder = new FFmpegBuilder()
+                .setInput(filename)     // Filename, or a FFmpegProbeResult
+                .overrideOutputFiles(true) // Override the output if it exists
+                .addOutput(filename.substring(0, filename.lastIndexOf('.'))+"edit" + ".mp4")   // Filename for the destination
+                .setFormat("mp4")        // Format is inferred from filename, or can be set
+                .setVideoFilter("hqdn3d")
+                .done();
+        executor.createJob(builder).run();
+    }
 
     //------------Filter Callers-----------------------------
 
@@ -270,7 +280,7 @@ public class VideoEffectsTemp {
 
     public static void main(String[] args){
 
-        callSpeedManipulation("filmik.mp4",3,false);          // przyspiesza
+        denoise("filmik.mp4");          // przyspiesza
         // callBlurSegment("output.mp4","a",(long) 10,(long) 30,30,true);  //bluruje od 0:10 do 0:30, zamienia plik
         //   compress("output.mp4","a",true);    //kompresuje plik, zamienia plik
         // callColorBalanceSegment("output.mp4","blueless.mp4",(long) 1, (long) 20,-1,"blue","medium",false); //usuwa srednie niebieskie kolory od 0:00 do 0:20, tworzy nowa kopie
