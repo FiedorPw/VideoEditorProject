@@ -270,7 +270,7 @@ public class VideoEffectsTemp {
 
     public static void main(String[] args){
 
-        callSpeedManipulation("output.mp4",3,false);          // przyspiesza
+        callSpeedManipulation("filmik.mp4",3,false);          // przyspiesza
         // callBlurSegment("output.mp4","a",(long) 10,(long) 30,30,true);  //bluruje od 0:10 do 0:30, zamienia plik
         //   compress("output.mp4","a",true);    //kompresuje plik, zamienia plik
         // callColorBalanceSegment("output.mp4","blueless.mp4",(long) 1, (long) 20,-1,"blue","medium",false); //usuwa srednie niebieskie kolory od 0:00 do 0:20, tworzy nowa kopie
