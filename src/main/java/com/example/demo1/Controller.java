@@ -8,7 +8,10 @@ import java.io.IOException;
 import java.net.URL;
 
 import java.util.ResourceBundle;
+import java.util.concurrent.Callable;
 
+import javafx.beans.Observable;
+import javafx.beans.binding.Bindings;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -41,6 +44,8 @@ public class Controller implements Initializable{
     private MediaView mediaView;
     @FXML
     private Label time;
+    @FXML
+    private Label currentTime;
 
     @FXML
     private Button playButton, pauseButton, resetButton;
@@ -67,18 +72,23 @@ public class Controller implements Initializable{
         file = new File("output.mp4");
         Modifyer modifyer = new Modifyer(file);
         modifyer.setRate(1.0);
-        modifyer.setVolume(1.0);
+        modifyer.setVolume(0.0);
         media = modifyer.getMedia();
         mediaPlayer = modifyer.getMediaPlayer();
-        mediaPlayer.setAutoPlay(true);
+        mediaPlayer.setAutoPlay(false);
+
+
         mediaPlayer.currentTimeProperty().addListener(new ChangeListener<Duration>() {
             @Override
             public void changed(ObservableValue<? extends Duration> observable, Duration oldValue, Duration newValue) {
                 //coding...
-                Duration d = mediaPlayer.getCurrentTime();
+                Duration d = mediaPlayer.getCurrentTime();timeSlider.setMax(mediaPlayer.getTotalDuration().toMinutes());
                 timeSlider.setValue(d.toMinutes());
+                currentTime.setText(getTime(mediaPlayer.getCurrentTime()));
             }
         });
+        System.out.println(mediaPlayer.getTotalDuration().toSeconds());
+        //timeSlider.setMax(mediaPlayer.getTotalDuration().toMinutes());
         timeSlider.valueProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
@@ -91,35 +101,55 @@ public class Controller implements Initializable{
         timeSlider.setShowTickLabels(true);
         timeSlider.setShowTickMarks(true);
         mediaView.setMediaPlayer(mediaPlayer);
-        mediaView.fitHeightProperty();mediaView.fitWidthProperty();
     }
 
     public void playMedia() {
         mediaPlayer.play();
     }
 
-    public void showTime(){mediaPlayer.getCurrentTime();}
-
     public void pauseMedia() {
         mediaPlayer.pause();
     }
+    public void colorBalance(){
 
-    public void turnOnVideoEditor(ActionEvent event) throws IOException {
-        mediaPlayer.pause();
-        FXMLLoader fxmlLoader = new FXMLLoader(VPApplication.class.getResource("VE.fxml"));
-        Scene scene = new Scene(fxmlLoader.load());
-        stage = (Stage)((javafx.scene.Node)event.getSource()).getScene().getWindow();
-        stage.setTitle("Edytor wideo");
-        stage.setScene(scene);
-        stage.show();
     }
-    public void turnOnVP(ActionEvent event) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(VPApplication.class.getResource("VM.fxml"));
-        Scene scene = new Scene(fxmlLoader.load());
-        stage = (Stage)((javafx.scene.Node)event.getSource()).getScene().getWindow();
-        stage.setTitle("Edytor wideo");
-        stage.setScene(scene);
-        stage.show();
+    public void eksport(){
+
+    }
+
+    public void changeVolume(){
+
+    }
+
+    public String getTime(Duration time){
+     int minutes = (int)time.toMinutes();
+     int seconds = (int)time.toSeconds();
+     if (seconds>60)seconds=seconds%60;
+     return String.format("%02d:%02d",
+             minutes, seconds);
+    }
+    public void changeSpeed(){
+
+    }
+
+    public void blur(){
+
+    }
+
+    public void cutting(){
+
+    }
+
+    public void merge(){
+
+    }
+
+    public void saveChanges(){
+
+    }
+
+    public void deleteChanges(){
+
     }
 
     public void resetMedia() {

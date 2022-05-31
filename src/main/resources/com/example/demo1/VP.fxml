@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.media.MediaView?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="712.0" prefWidth="903.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo1.Controller">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="787.0" prefWidth="1177.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo1.Controller">
 
    <padding>
 
@@ -17,20 +17,27 @@
 
    <children>
 
-      <MediaView fx:id="mediaView" fitHeight="500.0" fitWidth="700.0" layoutX="84.0" layoutY="32.0" />
+      <MediaView fx:id="mediaView" fitHeight="500.0" fitWidth="700.0" layoutX="251.0" layoutY="46.0" />
 
-      <Button fx:id="pauseButton" layoutX="70.0" layoutY="667.0" mnemonicParsing="false" onAction="#pauseMedia" text="PAUSE" />
+      <Button fx:id="pauseButton" layoutX="72.0" layoutY="662.0" mnemonicParsing="false" onAction="#pauseMedia" text="PAUSE" />
 
-      <Button fx:id="playButton" layoutX="14.0" layoutY="667.0" mnemonicParsing="false" onAction="#playMedia" text="PLAY" />
+      <Button fx:id="playButton" layoutX="23.0" layoutY="662.0" mnemonicParsing="false" onAction="#playMedia" text="PLAY" />
 
-      <Button fx:id="resetButton" layoutX="134.0" layoutY="667.0" mnemonicParsing="false" onAction="#resetMedia" text="RESET" />
-      <Slider fx:id="timeSlider" layoutX="14.0" layoutY="624.0" majorTickUnit="0.1" max="3.0" prefHeight="14.0" prefWidth="883.0" showTickLabels="true" showTickMarks="true" />
-      <Button layoutX="476.0" layoutY="667.0" mnemonicParsing="false" onAction="#turnOnVideoEditor" text="BLUR" />
-      <Button layoutX="195.0" layoutY="667.0" mnemonicParsing="false" text="ZMIANA GŁOŚNOŚCI" />
-      <Button layoutX="641.0" layoutY="667.0" mnemonicParsing="false" text="Button" />
-      <Button layoutX="338.0" layoutY="667.0" mnemonicParsing="false" text="ZMIANA PRĘDKOŚCI" />
-      <Button layoutX="538.0" layoutY="667.0" mnemonicParsing="false" text="WYCINANIE" />
-      <Label fx:id="time" layoutX="817.0" layoutY="607.0" prefHeight="17.0" prefWidth="44.0" text="TIME:" />
+      <Button fx:id="resetButton" layoutX="131.0" layoutY="662.0" mnemonicParsing="false" onAction="#resetMedia" text="RESET" />
+      <Slider fx:id="timeSlider" layoutX="14.0" layoutY="624.0" majorTickUnit="0.1" max="1.0" prefHeight="38.0" prefWidth="1154.0" showTickLabels="true" showTickMarks="true" />
+      <Button layoutX="466.0" layoutY="662.0" mnemonicParsing="false" onAction="#blur" text="BLUR" />
+      <Button layoutX="190.0" layoutY="662.0" mnemonicParsing="false" onAction="#changeVolume" text="ZMIANA GŁOŚNOŚCI" />
+      <Button layoutX="609.0" layoutY="662.0" mnemonicParsing="false" onAction="#merge" text="ŁĄCZENIE WIDEO" />
+      <Button layoutX="330.0" layoutY="662.0" mnemonicParsing="false" onAction="#changeSpeed" text="ZMIANA PRĘDKOŚCI" />
+      <Button layoutX="521.0" layoutY="662.0" mnemonicParsing="false" onAction="#cutting" text="WYCINANIE" />
+      <Label fx:id="time" layoutX="1047.0" layoutY="607.0" prefHeight="17.0" prefWidth="44.0" text="TIME:" />
+      <Button layoutX="983.0" layoutY="662.0" mnemonicParsing="false" onAction="#deleteChanges" text="COFNIJ ZMIANY" />
+      <Button layoutX="870.0" layoutY="662.0" mnemonicParsing="false" onAction="#saveChanges" text="ZAPISZ ZMIANY" />
+      <Label fx:id="currentTime" layoutX="1102.0" layoutY="607.0" text="0:00" />
+      <Slider layoutX="16.0" layoutY="687.0" max="1.0" prefHeight="38.0" prefWidth="1154.0" showTickLabels="true" showTickMarks="true" />
+      <Slider layoutX="16.0" layoutY="718.0" max="1.0" prefHeight="38.0" prefWidth="1154.0" showTickLabels="true" showTickMarks="true" />
+      <Button layoutX="729.0" layoutY="662.0" mnemonicParsing="false" onAction="#colorBalance" text="BALANS KOLORÓW" />
+      <Button layoutX="1098.0" layoutY="662.0" mnemonicParsing="false" onAction="#eksport" text="EKSPORT" />
 
    </children>
 

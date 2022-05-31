@@ -10,10 +10,11 @@ import java.io.IOException;
 public class VPApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        System.out.println("java version: "+System.getProperty("java.version"));  System.out.println("javafx.version: " + System.getProperty("javafx.version"));
+
+        //System.out.println("java version: "+System.getProperty("java.version"));  System.out.println("javafx.version: " + System.getProperty("javafx.version"));
         FXMLLoader fxmlLoader = new FXMLLoader(VPApplication.class.getResource("VP.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
-        stage.setTitle("Media Player");
+        stage.setTitle("Media Editor");
         stage.setScene(scene);
         stage.show();
     }
