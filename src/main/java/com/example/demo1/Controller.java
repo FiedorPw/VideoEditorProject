@@ -3,38 +3,26 @@ package com.example.demo1;
 
 
 import java.io.File;
-
-import java.io.IOException;
 import java.net.URL;
 
 import java.util.ResourceBundle;
-import java.util.concurrent.Callable;
-
-import javafx.beans.Observable;
-import javafx.beans.binding.Bindings;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-
-import javafx.geometry.Pos;
-import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
-import javafx.scene.layout.VBox;
+import javafx.scene.control.TextField;
 import javafx.scene.media.Media;
 
 import javafx.scene.media.MediaPlayer;
 
 import javafx.scene.media.MediaView;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -66,6 +54,8 @@ public class Controller implements Initializable{
 
     private Stage stage;
 
+    private TextField typo;
+
 
     @Override
 
@@ -84,6 +74,12 @@ public class Controller implements Initializable{
         mds2.setShowTickMarks(true);
         mds1.setShowTickLabels(true);
         mds1.setShowTickMarks(true);
+        EventHandler<ActionEvent> event = new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent e)
+            {
+                typo.setText(typo.getText());
+            }
+        };
         mediaPlayer.currentTimeProperty().addListener(new ChangeListener<Duration>() {
             @Override
             public void changed(ObservableValue<? extends Duration> observable, Duration oldValue, Duration newValue) {
@@ -127,7 +123,7 @@ public class Controller implements Initializable{
 
     }
     public void eksport(){
-
+        System.out.println(typo.getText());
     }
 
     public void changeVolume(){
@@ -143,8 +139,9 @@ public class Controller implements Initializable{
     }
     public void changeSpeed(){
     }
-    public void playAfterChange(File file){
-        Modifyer modifyer = new Modifyer(file);
+    public void playAfterChange(File file1){
+        Modifyer modifyer = new Modifyer(file1);
+        file = file1;
         modifyer.setRate(1.0);
         modifyer.setVolume(0.0);
         media = modifyer.getMedia();
@@ -192,6 +189,22 @@ public class Controller implements Initializable{
     }
 
     public void cutting(){
+        if (mds1.getValue() == mds1.getMin() && mds2.getValue() == mds2.getMax()){
+            if (mds1.getValue() == mds1.getMin() || mds1.getValue() == mds1.getMax()){
+            double val2 = mds2.getValue();Duration duration1 =  new Duration(val2 * 60 * 1000);
+            Vid.split(file.toString(), (long)duration1.toSeconds());
+                playAfterChange(new File(file.getName().substring(0, file.getName().lastIndexOf('.')) + "1" + ".mp4"));
+            }else{double val = mds1.getValue();Duration duration =  new Duration(val * 60 * 1000);
+                Vid.split(file.toString(), (long)duration.toSeconds());
+                playAfterChange(new File(file.getName().substring(0, file.getName().lastIndexOf('.')) + "2" + ".mp4"));
+            }
+        }else{
+            double val = mds1.getValue();Duration duration =  new Duration(val * 60 * 1000);
+            double val2 = mds2.getValue();Duration duration1 =  new Duration(val2 * 60 * 1000);
+            Vid.cutPass(file.toString(), (long)duration.toSeconds(), (long)duration1.toSeconds());
+            playAfterChange(new File(file.getName().substring(0, file.getName().lastIndexOf('.')) + "2" + ".mp4"));
+        }
+
 
     }
 
