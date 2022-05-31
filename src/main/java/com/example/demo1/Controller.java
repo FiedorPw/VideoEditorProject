@@ -42,6 +42,7 @@ import javafx.util.Duration;
 
 public class Controller implements Initializable{
 
+    VideoEffectsTemp Vid = new VideoEffectsTemp();
 
 
     @FXML
@@ -143,7 +144,7 @@ public class Controller implements Initializable{
     }
 
     public void blur(){
-
+        Vid.blur(file.getName(),20);
     }
 
     public void cutting(){

@@ -160,11 +160,11 @@ public class VideoEffectsTemp {
     }
 
     //-----------------Raw Filters--------------------------
-    public static void blur(String filename, String output, int blurStrength){  //bluruje calosc
+    public static void blur(String filename, int blurStrength){  //bluruje calosc
         FFmpegBuilder builder = new FFmpegBuilder()
                 .setInput(filename)     // Filename, or a FFmpegProbeResult
                 .overrideOutputFiles(true) // Override the output if it exists
-                .addOutput(output)   // Filename for the destination
+                .addOutput(filename.substring(0, filename.lastIndexOf('.'))+"edit" + ".mp4")   // Filename for the destination
                 .setFormat("mp4")        // Format is inferred from filename, or can be set
                 .setVideoFilter("boxblur="+blurStrength)
                 .done();
@@ -222,17 +222,17 @@ public class VideoEffectsTemp {
 
     //------------Filter Callers-----------------------------
 
-    public static void callBlurSegment(String filename, String output, Long time1, Long time2, int blurStrength, boolean replace){
-        String intermediateInput = filename.substring(0, filename.lastIndexOf('.')) + "2" + ".mp4";
-        String intermediateOutput = filename.substring(0, filename.lastIndexOf('.'))+"2edit" + ".mp4";
-        cutPass(filename,time1,time2);
-        blur(intermediateInput,intermediateOutput,blurStrength);
-        replace(intermediateInput,intermediateOutput);
-        concatenateFin(filename,output);
-        if(replace)
-            replace(filename,output);
-
-    }
+//    public static void callBlurSegment(String filename, String output, Long time1, Long time2, int blurStrength, boolean replace){
+//        String intermediateInput = filename.substring(0, filename.lastIndexOf('.')) + "2" + ".mp4";
+//        String intermediateOutput = filename.substring(0, filename.lastIndexOf('.'))+"2edit" + ".mp4";
+//        cutPass(filename,time1,time2);
+//        blur(intermediateInput,intermediateOutput,blurStrength);
+//        replace(intermediateInput,intermediateOutput);
+//        concatenateFin(filename,output);
+//        if(replace)
+//            replace(filename,output);
+//
+//    }
 
     public static void callColorBalanceSegment(String filename, String output, Long time1, Long time2, double intensity, String color, String level, boolean replace){
         String intermediateInput = filename.substring(0, filename.lastIndexOf('.')) + "2" + ".mp4";
