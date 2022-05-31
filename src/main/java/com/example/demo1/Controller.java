@@ -41,7 +41,7 @@ import javafx.util.Duration;
 
 
 public class Controller implements Initializable{
-
+    //vid eff
     VideoEffectsTemp Vid = new VideoEffectsTemp();
 
 
