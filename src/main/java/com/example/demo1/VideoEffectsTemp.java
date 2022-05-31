@@ -65,7 +65,7 @@ public class VideoEffectsTemp {
 
     public static void split(String filename, long time1){     //Dzieli filmik na dwa
         String input1 = filename.substring(0, filename.lastIndexOf('.')) + "1" + ".mp4";
-        String input3 = filename.substring(0, filename.lastIndexOf('.')) + "3" + ".mp4";
+        String input3 = filename.substring(0, filename.lastIndexOf('.')) + "2" + ".mp4";
         FFmpegBuilder builder1 = new FFmpegBuilder()
                 .setInput(filename)     // Filename, or a FFmpegProbeResult
                 .overrideOutputFiles(true) // Override the output if it exists
@@ -132,7 +132,7 @@ public class VideoEffectsTemp {
 
     public static void insert(String filename1, String filename2, String output){      //skleja segmenty po cutPass
         String input1 = filename1.substring(0, filename1.lastIndexOf('.')) + "1" + ".mp4";
-        String input2 = filename1.substring(0, filename1.lastIndexOf('.')) + "3" + ".mp4";
+        String input2 = filename1.substring(0, filename1.lastIndexOf('.')) + "2" + ".mp4";
         FFmpegBuilder builder = new FFmpegBuilder()
                 .setInput(input1)
                 .addInput(filename2)
@@ -197,6 +197,19 @@ public class VideoEffectsTemp {
         executor.createJob(builder).run();
     }
 
+    public static void speedManipulation(String filename, double speedFactor){  //zmienia glosnosc
+        FFmpegBuilder builder = new FFmpegBuilder()
+                .setInput(filename)     // Filename, or a FFmpegProbeResult
+                .overrideOutputFiles(true) // Override the output if it exists
+                .addOutput(filename.substring(0, filename.lastIndexOf('.'))+"edit" + ".mp4")   // Filename for the destination
+                .setFormat("mp4")        // Format is inferred from filename, or can be set
+                .setVideoFilter("setpts=(PTS-STARTPTS)/"+speedFactor)
+                .setAudioFilter("atempo="+speedFactor)
+                .done();
+        executor.createJob(builder).run();
+    }
+
+
     //------------Filter Callers-----------------------------
 
     public static void callBlurSegment(String filename, String output, Long time1, Long time2, int blurStrength, boolean replace){
@@ -247,14 +260,21 @@ public class VideoEffectsTemp {
             replace(filename,intermediateOutput);
     }
 
+    public static void callSpeedManipulation(String filename,double speedFactor,boolean replace){
+        String intermediateOutput = filename.substring(0, filename.lastIndexOf('.'))+"edit" + ".mp4";
+        speedManipulation(filename,speedFactor);
+        if(replace)
+            replace(filename,intermediateOutput);
+    }
+
 
     public static void main(String[] args){
 
-    //    compress("filmik.mp4","output.mp4",false);          // kompresuje filmik, tworzy nowa kopie
-        callBlurSegment("output.mp4","a",(long) 10,(long) 30,30,true);  //bluruje od 0:10 do 0:30, zamienia plik
-    //    compress("output.mp4","a",true);    //kompresuje plik, zamienia plik
-        callColorBalanceSegment("output.mp4","blueless.mp4",(long) 1, (long) 20,-1,"blue","medium",false); //usuwa srednie niebieskie kolory od 0:00 do 0:20, tworzy nowa kopie
-        callInsertMid("output.mp4","blueless.mp4","alfa.mp4",(long) 20,false);
-        callVolumeManipulation("alfa.mp4",0,true);
+        callSpeedManipulation("filmik.mp4",3,false);          // przyspiesza
+        // callBlurSegment("output.mp4","a",(long) 10,(long) 30,30,true);  //bluruje od 0:10 do 0:30, zamienia plik
+        //   compress("output.mp4","a",true);    //kompresuje plik, zamienia plik
+        // callColorBalanceSegment("output.mp4","blueless.mp4",(long) 1, (long) 20,-1,"blue","medium",false); //usuwa srednie niebieskie kolory od 0:00 do 0:20, tworzy nowa kopie
+        // callInsertMid("output.mp4","blueless.mp4","alfa.mp4",(long) 20,false);
+        // callVolumeManipulation("alfa.mp4",0,true);
     }
 }
