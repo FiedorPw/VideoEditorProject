@@ -19,26 +19,28 @@
 
       <MediaView fx:id="mediaView" fitHeight="500.0" fitWidth="700.0" layoutX="251.0" layoutY="46.0" />
 
-      <Button fx:id="pauseButton" layoutX="72.0" layoutY="662.0" mnemonicParsing="false" onAction="#pauseMedia" text="PAUSE" />
+      <Button fx:id="pauseButton" layoutX="74.0" layoutY="646.0" mnemonicParsing="false" onAction="#pauseMedia" text="PAUSE" />
 
-      <Button fx:id="playButton" layoutX="23.0" layoutY="662.0" mnemonicParsing="false" onAction="#playMedia" text="PLAY" />
+      <Button fx:id="playButton" layoutX="25.0" layoutY="646.0" mnemonicParsing="false" onAction="#playMedia" text="PLAY" />
 
-      <Button fx:id="resetButton" layoutX="131.0" layoutY="662.0" mnemonicParsing="false" onAction="#resetMedia" text="RESET" />
-      <Slider fx:id="timeSlider" layoutX="14.0" layoutY="624.0" majorTickUnit="0.1" max="1.0" prefHeight="38.0" prefWidth="1154.0" showTickLabels="true" showTickMarks="true" />
-      <Button layoutX="466.0" layoutY="662.0" mnemonicParsing="false" onAction="#blur" text="BLUR" />
-      <Button layoutX="190.0" layoutY="662.0" mnemonicParsing="false" onAction="#changeVolume" text="ZMIANA GŁOŚNOŚCI" />
-      <Button layoutX="609.0" layoutY="662.0" mnemonicParsing="false" onAction="#merge" text="ŁĄCZENIE WIDEO" />
-      <Button layoutX="330.0" layoutY="662.0" mnemonicParsing="false" onAction="#changeSpeed" text="ZMIANA PRĘDKOŚCI" />
-      <Button layoutX="521.0" layoutY="662.0" mnemonicParsing="false" onAction="#cutting" text="WYCINANIE" />
-      <Label fx:id="time" layoutX="1047.0" layoutY="607.0" prefHeight="17.0" prefWidth="44.0" text="TIME:" />
-      <Button layoutX="983.0" layoutY="662.0" mnemonicParsing="false" onAction="#deleteChanges" text="COFNIJ ZMIANY" />
-      <Button layoutX="870.0" layoutY="662.0" mnemonicParsing="false" onAction="#saveChanges" text="ZAPISZ ZMIANY" />
-      <Label fx:id="currentTime" layoutX="1102.0" layoutY="607.0" text="0:00" />
-      <Slider fx:id="mds1" layoutX="16.0" layoutY="687.0" majorTickUnit="0.1" max="1.0" prefHeight="38.0" prefWidth="1154.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" />
-      <Slider fx:id="mds2" layoutX="16.0" layoutY="718.0" majorTickUnit="0.1" max="1.0" prefHeight="38.0" prefWidth="1154.0" showTickLabels="true" showTickMarks="true" />
-      <Button layoutX="729.0" layoutY="662.0" mnemonicParsing="false" onAction="#colorBalance" text="BALANS KOLORÓW" />
-      <Button layoutX="1098.0" layoutY="662.0" mnemonicParsing="false" onAction="#eksport" text="EKSPORT" />
-      <Button fx:id="fileChoose" layoutX="19.0" layoutY="756.0" mnemonicParsing="false" onAction="#fileChooser" text="WYBIERZ PLIK" />
+      <Button fx:id="resetButton" layoutX="133.0" layoutY="646.0" mnemonicParsing="false" onAction="#resetMedia" text="RESET" />
+      <Slider fx:id="timeSlider" layoutX="16.0" layoutY="608.0" majorTickUnit="0.1" max="1.0" prefHeight="38.0" prefWidth="1154.0" showTickLabels="true" showTickMarks="true" />
+      <Button layoutX="468.0" layoutY="646.0" mnemonicParsing="false" onAction="#blur" text="BLUR" />
+      <Button layoutX="192.0" layoutY="646.0" mnemonicParsing="false" onAction="#changeVolume" text="ZMIANA GŁOŚNOŚCI" />
+      <Button layoutX="611.0" layoutY="646.0" mnemonicParsing="false" onAction="#merge" text="ŁĄCZENIE WIDEO" />
+      <Button layoutX="332.0" layoutY="646.0" mnemonicParsing="false" onAction="#changeSpeed" text="ZMIANA PRĘDKOŚCI" />
+      <Button layoutX="523.0" layoutY="646.0" mnemonicParsing="false" onAction="#cutting" text="WYCINANIE" />
+      <Label fx:id="time" layoutX="1049.0" layoutY="591.0" prefHeight="17.0" prefWidth="44.0" text="TIME:" />
+      <Button layoutX="985.0" layoutY="646.0" mnemonicParsing="false" onAction="#deleteChanges" text="COFNIJ ZMIANY" />
+      <Button layoutX="872.0" layoutY="646.0" mnemonicParsing="false" onAction="#saveChanges" text="ZAPISZ ZMIANY" />
+      <Label fx:id="currentTime" layoutX="1104.0" layoutY="591.0" text="0:00" />
+      <Slider fx:id="mds1" layoutX="16.0" layoutY="671.0" majorTickUnit="0.1" max="1.0" prefHeight="38.0" prefWidth="1154.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" />
+      <Slider fx:id="mds2" layoutX="16.0" layoutY="725.0" majorTickUnit="0.1" max="1.0" prefHeight="38.0" prefWidth="1154.0" showTickLabels="true" showTickMarks="true" />
+      <Button layoutX="731.0" layoutY="646.0" mnemonicParsing="false" onAction="#colorBalance" text="BALANS KOLORÓW" />
+      <Button layoutX="1100.0" layoutY="646.0" mnemonicParsing="false" onAction="#eksport" text="EKSPORT" />
+      <Button fx:id="fileChoose" layoutY="761.0" mnemonicParsing="false" onAction="#fileChooser" text="WYBIERZ PLIK" />
+      <Label fx:id="mds1l" layoutX="1094.0" layoutY="701.0" prefHeight="17.0" prefWidth="43.0" text="0:00" />
+      <Label fx:id="mds2l" layoutX="1097.0" layoutY="755.0" prefHeight="17.0" prefWidth="43.0" text="0:00" />
 
    </children>
 

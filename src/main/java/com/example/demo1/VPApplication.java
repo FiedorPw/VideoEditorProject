@@ -16,6 +16,7 @@ public class VPApplication extends Application {
         Scene scene = new Scene(fxmlLoader.load());
         stage.setTitle("Media Editor");
         stage.setScene(scene);
+        stage.setResizable(false);
         stage.show();
     }
 

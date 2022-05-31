@@ -50,7 +50,7 @@ public class Controller implements Initializable{
     @FXML
     private Label time;
     @FXML
-    private Label currentTime;
+    private Label currentTime, mds1l, mds2l;
 
     @FXML
     private Button playButton, pauseButton, resetButton, fileChoose;
@@ -90,6 +90,10 @@ public class Controller implements Initializable{
                 //coding...
                 Duration d = mediaPlayer.getCurrentTime();timeSlider.setMax(mediaPlayer.getTotalDuration().toMinutes());mds1.setMax(mediaPlayer.getTotalDuration().toMinutes());mds2.setMax(mediaPlayer.getTotalDuration().toMinutes());
                 timeSlider.setValue(d.toMinutes());
+                double val = mds1.getValue();
+                mds1l.setText(getTime(new Duration(val * 60 * 1000)));
+                val = mds2.getValue();
+                mds2l.setText(getTime(new Duration(val * 60 * 1000)));
                 currentTime.setText(getTime(mediaPlayer.getCurrentTime()));
             }
         });
@@ -133,17 +137,13 @@ public class Controller implements Initializable{
     public String getTime(Duration time){
      int minutes = (int)time.toMinutes();
      int seconds = (int)time.toSeconds();
-     if (seconds>60)seconds=seconds%60;
+     if (seconds>=60)seconds=seconds%60;
      return String.format("%02d:%02d",
              minutes, seconds);
     }
     public void changeSpeed(){
     }
-
-    public void blur(){
-        mediaPlayer.pause();
-        Vid.blur(file.getName(),20);Vid.replace(file.getName(), file.getName().substring(0, file.getName().lastIndexOf('.'))+"edit" + ".mp4");
-        file = new File(file.getName().substring(0, file.getName().lastIndexOf('.'))+"edit" + ".mp4");
+    public void playAfterChange(File file){
         Modifyer modifyer = new Modifyer(file);
         modifyer.setRate(1.0);
         modifyer.setVolume(0.0);
@@ -161,6 +161,10 @@ public class Controller implements Initializable{
                 //coding...
                 Duration d = mediaPlayer.getCurrentTime();timeSlider.setMax(mediaPlayer.getTotalDuration().toMinutes());mds1.setMax(mediaPlayer.getTotalDuration().toMinutes());mds2.setMax(mediaPlayer.getTotalDuration().toMinutes());
                 timeSlider.setValue(d.toMinutes());
+                double val = mds1.getValue();
+                mds1l.setText(getTime(new Duration(val * 60 * 1000)));
+                val = mds2.getValue();
+                mds2l.setText(getTime(new Duration(val * 60 * 1000)));
                 currentTime.setText(getTime(mediaPlayer.getCurrentTime()));
             }
         });
@@ -179,6 +183,12 @@ public class Controller implements Initializable{
         timeSlider.setShowTickMarks(true);
         mediaPlayer.setAutoPlay(false);
         mediaView.setMediaPlayer(mediaPlayer);
+    }
+
+    public void blur(){
+        mediaPlayer.pause();
+        Vid.blur(file.getName(),20);Vid.replace(file.getName(), file.getName().substring(0, file.getName().lastIndexOf('.'))+"edit" + ".mp4");
+        playAfterChange(new File(file.getName().substring(0, file.getName().lastIndexOf('.')) + "edit" + ".mp4"));
     }
 
     public void cutting(){
