@@ -53,7 +53,7 @@ public class Controller implements Initializable{
     private MediaPlayer mediaPlayer;
 
     private Stage stage;
-
+    @FXML
     private TextField typo;
 
 
@@ -122,8 +122,9 @@ public class Controller implements Initializable{
     public void colorBalance(){
 
     }
-    public void eksport(){
-        System.out.println(typo.getText());
+    public void eksport(ActionEvent event){
+        String input = typo.getText();
+        System.out.println(input);
     }
 
     public void changeVolume(){
