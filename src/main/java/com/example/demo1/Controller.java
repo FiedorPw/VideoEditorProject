@@ -212,9 +212,35 @@ public class Controller implements Initializable{
     }
 
     public void blur(){
-        mediaPlayer.pause();
-        Vid.blur(file.getName(),20);Vid.replace(file.getName(), file.getName().substring(0, file.getName().lastIndexOf('.'))+"edit" + ".mp4");
-        playAfterChange(new File(file.getName().substring(0, file.getName().lastIndexOf('.')) + "edit" + ".mp4"));
+        long[] k = sliderDif();
+        double val = mds1.getMax();Duration duration =  new Duration(val * 60 * 1000);
+        long maks = (long)duration.toSeconds();
+        if (k[0] == 0 && k[1]==maks){
+            return;
+        }
+        if (k[0]==0 || k[1] == 0 || k[0] == maks || k[1] == maks ){
+            if (mds1.getValue() == mds1.getMin() || mds1.getValue() == mds1.getMax()){
+                double val2 = mds2.getValue();Duration duration1 =  new Duration(val2 * 60 * 1000);
+                Vid.split(file.toString(), (long)duration1.toSeconds());
+                Vid.blur(file.getName().substring(0, file.getName().lastIndexOf('.')) + "1" + ".mp4",20);
+                Vid.replace(file.getName().substring(0, file.getName().lastIndexOf('.')) + "1" + ".mp4",file.getName().substring(0, file.getName().lastIndexOf('.')) + "1edit" + ".mp4");
+                Vid.append(file.getName(),file.getName().substring(0, file.getName().lastIndexOf('.')) + "output" + ".mp4");
+                playAfterChange(new File(file.getName().substring(0, file.getName().lastIndexOf('.')) + "output" + ".mp4"));
+            }else{
+                val = mds1.getValue();duration =  new Duration(val * 60 * 1000);
+                Vid.split(file.toString(), (long)duration.toSeconds());
+                Vid.blur(file.getName().substring(0, file.getName().lastIndexOf('.')) + "2" + ".mp4",20);
+                Vid.replace(file.getName().substring(0, file.getName().lastIndexOf('.')) + "2" + ".mp4",file.getName().substring(0, file.getName().lastIndexOf('.')) + "2edit" + ".mp4");
+                Vid.append(file.getName(),file.getName().substring(0, file.getName().lastIndexOf('.')) + "output" + ".mp4");
+                playAfterChange(new File(file.getName().substring(0, file.getName().lastIndexOf('.')) + "output" + ".mp4"));            }
+        }else{
+            Vid.cutPass(file.toString(), k[0], k[1]);
+            Vid.blur(file.getName().substring(0, file.getName().lastIndexOf('.')) + "2" + ".mp4",20);
+            Vid.replace(file.getName().substring(0, file.getName().lastIndexOf('.')) + "2" + ".mp4",file.getName().substring(0, file.getName().lastIndexOf('.')) + "2edit" + ".mp4");
+            Vid.concatenateFin(file.getName(),file.getName().substring(0, file.getName().lastIndexOf('.')) + "output" + ".mp4");
+        playAfterChange(new File(file.getName().substring(0, file.getName().lastIndexOf('.')) + "output" + ".mp4"));
+        }
+
     }
     public long[] sliderDif(){
         long[] output = new long[2];

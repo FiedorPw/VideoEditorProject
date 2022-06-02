@@ -148,10 +148,12 @@ public class VideoEffectsTemp {
         inputFile2.delete();
     }
 
-    public static void append(String filename1, String filename2, String output){      //skleja segmenty po cutPass
+    public static void append(String filename1, String output){      //skleja segmenty po cutPass
+        String input1 = filename1.substring(0, filename1.lastIndexOf('.')) + "1" + ".mp4";
+        String input2 = filename1.substring(0, filename1.lastIndexOf('.')) + "2" + ".mp4";
         FFmpegBuilder builder = new FFmpegBuilder()
-                .setInput(filename1)
-                .addInput(filename2)
+                .setInput(input1)
+                .addInput(input2)
                 .overrideOutputFiles(true) // Override the output if it exists
                 .addOutput(output)   // Filename for the destination
                 .setFormat("mp4")        // Format is inferred from filename, or can be set
@@ -244,12 +246,12 @@ public class VideoEffectsTemp {
         if(replace)
             replace(filename,output);
     }
-
-    public static void callInsertStart(String filename1, String filename2, String output,boolean replace){
-        append(filename2,filename1,output);
-        if(replace)
-            replace(filename2,output);
-    }
+//
+//    public static void callInsertStart(String filename1, String filename2, String output,boolean replace){
+//        append(filename2,filename1,output);
+//        if(replace)
+//            replace(filename2,output);
+//    }
 
     public static void callInsertMid(String filename1, String filename2, String output, Long time1, boolean replace){
         split(filename1,time1);
@@ -258,11 +260,11 @@ public class VideoEffectsTemp {
             replace(filename1,output);
     }
 
-    public static void callInsertEnd(String filename1, String filename2, String output,boolean replace){
-        append(filename1,filename2,output);
-        if(replace)
-            replace(filename1,output);
-    }
+//    public static void callInsertEnd(String filename1, String filename2, String output,boolean replace){
+//        append(filename1,filename2,output);
+//        if(replace)
+//            replace(filename1,output);
+//    }
     public static void callVolumeManipulation(String filename,double volume,boolean replace){
         String intermediateOutput = filename.substring(0, filename.lastIndexOf('.'))+"edit" + ".mp4";
         volumeManipulation(filename,volume);
