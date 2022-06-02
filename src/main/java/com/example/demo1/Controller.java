@@ -187,21 +187,40 @@ public class Controller implements Initializable{
         Vid.blur(file.getName(),20);Vid.replace(file.getName(), file.getName().substring(0, file.getName().lastIndexOf('.'))+"edit" + ".mp4");
         playAfterChange(new File(file.getName().substring(0, file.getName().lastIndexOf('.')) + "edit" + ".mp4"));
     }
-
+    public long[] sliderDif(){
+        long[] output = new long[2];
+        double val = mds1.getValue();Duration duration =  new Duration(val * 60 * 1000);
+        double val2 = mds2.getValue();Duration duration1 =  new Duration(val2 * 60 * 1000);
+        if (val<val2){
+            output[0] = (long)duration.toSeconds();
+            output[1] = (long)duration1.toSeconds();
+        }else{
+            output[0] = (long)duration1.toSeconds();
+            output[1] = (long)duration.toSeconds();
+        }
+        return output;
+    }
     public void cutting(){
-        if (mds1.getValue() == mds1.getMin() && mds2.getValue() == mds2.getMax()){
+        long[] k = sliderDif();
+        double val = mds1.getMax();Duration duration =  new Duration(val * 60 * 1000);
+        long maks = (long)duration.toSeconds();
+        if (k[0] == 0 && k[1]==maks){
+            System.out.println("im in");
+            return;
+        }
+        if (k[0]==0 || k[1] == 0 || k[0] == maks || k[1] == maks ){
             if (mds1.getValue() == mds1.getMin() || mds1.getValue() == mds1.getMax()){
-            double val2 = mds2.getValue();Duration duration1 =  new Duration(val2 * 60 * 1000);
-            Vid.split(file.toString(), (long)duration1.toSeconds());
+                double val2 = mds2.getValue();Duration duration1 =  new Duration(val2 * 60 * 1000);
+                Vid.split(file.toString(), (long)duration1.toSeconds());
                 playAfterChange(new File(file.getName().substring(0, file.getName().lastIndexOf('.')) + "1" + ".mp4"));
-            }else{double val = mds1.getValue();Duration duration =  new Duration(val * 60 * 1000);
+            }else{val = mds1.getValue();duration =  new Duration(val * 60 * 1000);
                 Vid.split(file.toString(), (long)duration.toSeconds());
                 playAfterChange(new File(file.getName().substring(0, file.getName().lastIndexOf('.')) + "2" + ".mp4"));
             }
         }else{
-            double val = mds1.getValue();Duration duration =  new Duration(val * 60 * 1000);
-            double val2 = mds2.getValue();Duration duration1 =  new Duration(val2 * 60 * 1000);
-            Vid.cutPass(file.toString(), (long)duration.toSeconds(), (long)duration1.toSeconds());
+//            double val = mds1.getValue();Duration duration =  new Duration(val * 60 * 1000);
+//            double val2 = mds2.getValue();Duration duration1 =  new Duration(val2 * 60 * 1000);
+            Vid.cutPass(file.toString(), k[0], k[1]);
             playAfterChange(new File(file.getName().substring(0, file.getName().lastIndexOf('.')) + "2" + ".mp4"));
         }
 
