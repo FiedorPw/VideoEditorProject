@@ -38,7 +38,7 @@ public class Controller implements Initializable{
     @FXML
     private Label time;
     @FXML
-    private Label currentTime, mds1l, mds2l;
+    private Label currentTime, mds1l, mds2l, warningLabel;
 
     @FXML
     private Button playButton, pauseButton, resetButton, fileChoose;
@@ -127,8 +127,11 @@ public class Controller implements Initializable{
         System.out.println(input);
     }
 
-    public void changeVolume(){
-
+    public void changeVolume(ActionEvent event){
+        double input = Double.parseDouble(typo.getText());
+        if (input> 8.0 || input < 0.0){
+            warningLabel.setText("Podano złą wartość nowej głośności.");
+        }else{warningLabel.setText("Zmiana dokonana");}
     }
 
     public String getTime(Duration time){
@@ -138,7 +141,11 @@ public class Controller implements Initializable{
      return String.format("%02d:%02d",
              minutes, seconds);
     }
-    public void changeSpeed(){
+    public void changeSpeed(ActionEvent event){
+        double input = Double.parseDouble(typo.getText());
+        if (input> 3.0 || input < 0.0){
+            warningLabel.setText("Podano złą wartość nowej prędkości.");
+        }else{warningLabel.setText("Zmiana dokonana");}
     }
     public void playAfterChange(File file1){
         Modifyer modifyer = new Modifyer(file1);
