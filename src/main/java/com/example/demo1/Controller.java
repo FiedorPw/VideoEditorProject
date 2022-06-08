@@ -221,6 +221,7 @@ public class Controller implements Initializable{
                 break;
             case 4:
                 textInput = typo.getText();
+                Vid.compress(file.getName().substring(0, file.getName().lastIndexOf('.')) + ".mp4", textInput);
                 break;
 
         }
