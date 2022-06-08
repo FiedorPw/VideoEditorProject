@@ -108,18 +108,16 @@ public class VideoEffectsTemp {
     }
 
 
-    public static void compress(String filename, String output, boolean replace){  //bluruje calosc
+    public static void compress(String filename, String output){  //bluruje calosc
         FFmpegBuilder builder = new FFmpegBuilder()
                 .setInput(filename)     // Filename, or a FFmpegProbeResult
                 .overrideOutputFiles(true) // Override the output if it exists
                 .addOutput(output)   // Filename for the destination
-                .setFormat("mp4")        // Format is inferred from filename, or can be set
+                .setFormat(output.substring(output.indexOf('.')+1))        // Format is inferred from filename, or can be set
                 .setVideoCodec("libx265")
                 .setConstantRateFactor(28)
                 .done();
         executor.createJob(builder).run();
-        if(replace)
-            replace(filename,output);
     }
 
     public static void replace(String replaced, String replacer){
