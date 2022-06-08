@@ -45,11 +45,12 @@
       <Label fx:id="mds2l" layoutX="1097.0" layoutY="755.0" prefHeight="17.0" prefWidth="43.0" text="0:00" />
       <TextField fx:id="typo" layoutX="489.0" layoutY="760.0" />
       <Label layoutX="410.0" layoutY="764.0" prefHeight="17.0" prefWidth="110.0" text="Wpisz wartość" />
-      <Label fx:id="warningLabel" layoutX="414.0" layoutY="536.0" prefHeight="64.0" prefWidth="350.0">
+      <Label fx:id="warningLabel" layoutX="3.0" layoutY="521.0" prefHeight="64.0" prefWidth="1171.0" textAlignment="CENTER" textOverrun="CENTER_WORD_ELLIPSIS" wrapText="true">
          <font>
-            <Font size="21.0" />
+            <Font name="Garamond" size="21.0" />
          </font>
       </Label>
+      <Button fx:id="okButton" layoutX="640.0" layoutY="760.0" mnemonicParsing="false" onAction="#operationChooser" text="OK" />
 
    </children>
 

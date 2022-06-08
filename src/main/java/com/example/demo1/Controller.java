@@ -41,7 +41,7 @@ public class Controller implements Initializable{
     private Label currentTime, mds1l, mds2l, warningLabel;
 
     @FXML
-    private Button playButton, pauseButton, resetButton, fileChoose;
+    private Button playButton, pauseButton, resetButton, fileChoose, okButton;
 
     @FXML
     private Slider timeSlider, mds1, mds2;
@@ -55,7 +55,9 @@ public class Controller implements Initializable{
     private Stage stage;
     @FXML
     private TextField typo;
-
+    public String textInput;
+    public double numberInput;
+    public int operation; //te 3 zmienne są odpowiedzialne za guziki wymagające podaina parametrów w polu tekstowym,
 
     @Override
 
@@ -119,19 +121,40 @@ public class Controller implements Initializable{
     public void fileChooser(){
 
     }
-    public void colorBalance(){
+    public void operationChooser(){
+        warningLabel.setText("");
+        switch (operation){
+            case 1:
+                numberInput = Double.parseDouble(typo.getText());
+                warningLabel.setText(String.valueOf(numberInput));
 
+                break;
+            case 2:
+                numberInput = Double.parseDouble(typo.getText());
+                break;
+            case 3:
+                textInput = typo.getText();
+                break;
+            case 4:
+                textInput = typo.getText();
+                break;
+
+        }
+        operation = 0;
+    }
+    public void colorBalance(){
+        warningLabel.setText("Wpisz wartość z przedziału (przedział) w polu tekstowym i zatwierdź klikając 'OK'");
+        operation = 3;
     }
     public void eksport(ActionEvent event){
-        String input = typo.getText();
-        System.out.println(input);
+        warningLabel.setText("Wpisz nazwę pliku (z rozszerzeniem) w poniższym polu tekstowym i zatwierdź klikając 'OK'");
+        operation = 4;
+
     }
 
     public void changeVolume(ActionEvent event){
-        double input = Double.parseDouble(typo.getText());
-        if (input> 8.0 || input < 0.0){
-            warningLabel.setText("Podano złą wartość nowej głośności.");
-        }else{warningLabel.setText("Zmiana dokonana");}
+        warningLabel.setText("Wpisz wartość z przedziału (przedział) w polu tekstowym i zatwierdź klikając 'OK'");
+        operation = 1;
     }
 
     public String getTime(Duration time){
@@ -142,10 +165,8 @@ public class Controller implements Initializable{
              minutes, seconds);
     }
     public void changeSpeed(ActionEvent event){
-        double input = Double.parseDouble(typo.getText());
-        if (input> 3.0 || input < 0.0){
-            warningLabel.setText("Podano złą wartość nowej prędkości.");
-        }else{warningLabel.setText("Zmiana dokonana");}
+        warningLabel.setText("Wpisz wartość z przedziału (przedział) w polu tekstowym i zatwierdź klikając 'OK'");
+        operation = 2;
     }
     public void playAfterChange(File file1){
         Modifyer modifyer = new Modifyer(file1);
