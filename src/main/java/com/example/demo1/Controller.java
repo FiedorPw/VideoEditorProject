@@ -159,8 +159,6 @@ public class Controller implements Initializable{
                             Vid.append(file.getName(), file.getName().substring(0, file.getName().lastIndexOf('.')) + "output" + ".mp4");
                             File del2=new File(file.getName().substring(0, file.getName().lastIndexOf('.')) + "2" + ".mp4");
                             del2.deleteOnExit();
-                            File del3=new File(file.getName().substring(0, file.getName().lastIndexOf('.')) + "3" + ".mp4");
-                            del3.deleteOnExit();
                             File del4=new File(file.getName().substring(0, file.getName().lastIndexOf('.')) + "1" + ".mp4");
                             del4.deleteOnExit();
                             playAfterChange(new File(file.getName().substring(0, file.getName().lastIndexOf('.')) + "output" + ".mp4"));
@@ -174,8 +172,6 @@ public class Controller implements Initializable{
                             Vid.append(file.getName(), file.getName().substring(0, file.getName().lastIndexOf('.')) + "output" + ".mp4");
                             File del2=new File(file.getName().substring(0, file.getName().lastIndexOf('.')) + "2" + ".mp4");
                             del2.deleteOnExit();
-                            File del3=new File(file.getName().substring(0, file.getName().lastIndexOf('.')) + "3" + ".mp4");
-                            del3.deleteOnExit();
                             File del4=new File(file.getName().substring(0, file.getName().lastIndexOf('.')) + "1" + ".mp4");
                             del4.deleteOnExit();
                             playAfterChange(new File(file.getName().substring(0, file.getName().lastIndexOf('.')) + "output" + ".mp4"));
