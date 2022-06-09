@@ -137,11 +137,11 @@ public class Controller implements Initializable{
                 mediaPlayer.pause();
                 numberInput = Double.parseDouble(typo.getText());
                 //implementacja
-                if (k[0] == 0 && k[1]==maks){
+                if ((k[0] == 0 && k[1]==maks) || k[1]==k[0]){
                     Vid.volumeManipulation(file.getName().substring(0, file.getName().lastIndexOf('.')) + ".mp4",numberInput);
                     Vid.replace(file.getName().substring(0, file.getName().lastIndexOf('.')) + ".mp4",file.getName().substring(0, file.getName().lastIndexOf('.')) + "edit" + ".mp4");
                 }
-                if (k[0]==0 || k[1] == 0 || k[0] == maks || k[1] == maks ){
+                if (k[0]==0 || k[1] == 0 || k[0] == maks || k[1] == maks){
                     if (mds1.getValue() == mds1.getMin() || mds1.getValue() == mds1.getMax()){
                         double val2 = mds2.getValue();Duration duration1 =  new Duration(val2 * 60 * 1000);
                         Vid.split(file.toString(), (long)duration1.toSeconds());
@@ -168,11 +168,11 @@ public class Controller implements Initializable{
                 mediaPlayer.pause();
                 numberInput = Double.parseDouble(typo.getText());
                 //implementacja
-                if (k[0] == 0 && k[1]==maks){
+                if ((k[0] == 0 && k[1]==maks)||k[0]==k[1]){
                     Vid.speedManipulation(file.getName().substring(0, file.getName().lastIndexOf('.')) + ".mp4",numberInput);
                     Vid.replace(file.getName().substring(0, file.getName().lastIndexOf('.')) + ".mp4",file.getName().substring(0, file.getName().lastIndexOf('.')) + "edit" + ".mp4");
                 }
-                if (k[0]==0 || k[1] == 0 || k[0] == maks || k[1] == maks ){
+                if (k[0]==0 || k[1] == 0 || k[0] == maks || k[1] == maks || k[0]==k[1]){
                     if (mds1.getValue() == mds1.getMin() || mds1.getValue() == mds1.getMax()){
                         double val2 = mds2.getValue();Duration duration1 =  new Duration(val2 * 60 * 1000);
                         Vid.split(file.toString(), (long)duration1.toSeconds());
@@ -200,7 +200,7 @@ public class Controller implements Initializable{
                 textInput = typo.getText();
                 String[] inputs = textInput.split(" ");
                 //implementacja
-                if (k[0] == 0 && k[1]==maks){
+                if ((k[0] == 0 && k[1]==maks)||k[0]==k[1]){
                     Vid.colorBalance(file.getName().substring(0, file.getName().lastIndexOf('.')) + ".mp4",Double.parseDouble(inputs[2]),inputs[0],inputs[1]);
                     Vid.replace(file.getName().substring(0, file.getName().lastIndexOf('.')) + ".mp4",file.getName().substring(0, file.getName().lastIndexOf('.')) + "edit" + ".mp4");
                 }
