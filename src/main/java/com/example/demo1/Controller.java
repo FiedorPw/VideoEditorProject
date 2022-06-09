@@ -282,9 +282,7 @@ public class Controller implements Initializable{
         for (int i = 0; i < listOfmetods.size(); i++) {
             operation = listOfmetods.get(i);
             long[] k = kList.get(i);
-            textInput = textInputList.get(i);
-            numberInput = numberInputList.get(i);
-
+            typo.setText(textInputList.get(i));
             operationChooser(k);
         }
 
