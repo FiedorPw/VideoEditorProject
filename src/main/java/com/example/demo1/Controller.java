@@ -50,7 +50,7 @@ public class Controller implements Initializable{
     @FXML
     private Slider timeSlider, mds1, mds2;
 
-    private File file;
+    private File file, oldfile; //oldfile zapamietuje oryginalny plik i postara sie go nie usunac
 
     private Media media;
 
@@ -70,6 +70,7 @@ public class Controller implements Initializable{
 
 
         file = new File("output.mp4");
+        oldfile = new File(file.getName());
         Modifyer modifyer = new Modifyer(file);
         modifyer.setRate(1.0);
         modifyer.setVolume(1.0);
@@ -209,6 +210,10 @@ public class Controller implements Initializable{
                             Vid.speedManipulation(file.getName().substring(0, file.getName().lastIndexOf('.')) + "1" + ".mp4", numberInput);
                             Vid.replace(file.getName().substring(0, file.getName().lastIndexOf('.')) + "1" + ".mp4", file.getName().substring(0, file.getName().lastIndexOf('.')) + "1edit" + ".mp4");
                             Vid.append(file.getName(), file.getName().substring(0, file.getName().lastIndexOf('.')) + "output" + ".mp4");
+                            File del2=new File(file.getName().substring(0, file.getName().lastIndexOf('.')) + "2" + ".mp4");
+                            del2.deleteOnExit();
+                            File del4=new File(file.getName().substring(0, file.getName().lastIndexOf('.')) + "1" + ".mp4");
+                            del4.deleteOnExit();
                             playAfterChange(new File(file.getName().substring(0, file.getName().lastIndexOf('.')) + "output" + ".mp4"));
                         } else {
                             val = mds1.getValue();
@@ -217,6 +222,10 @@ public class Controller implements Initializable{
                             Vid.speedManipulation(file.getName().substring(0, file.getName().lastIndexOf('.')) + "2" + ".mp4", numberInput);
                             Vid.replace(file.getName().substring(0, file.getName().lastIndexOf('.')) + "2" + ".mp4", file.getName().substring(0, file.getName().lastIndexOf('.')) + "2edit" + ".mp4");
                             Vid.append(file.getName(), file.getName().substring(0, file.getName().lastIndexOf('.')) + "output" + ".mp4");
+                            File del2=new File(file.getName().substring(0, file.getName().lastIndexOf('.')) + "2" + ".mp4");
+                            del2.deleteOnExit();
+                            File del4=new File(file.getName().substring(0, file.getName().lastIndexOf('.')) + "1" + ".mp4");
+                            del4.deleteOnExit();
                             playAfterChange(new File(file.getName().substring(0, file.getName().lastIndexOf('.')) + "output" + ".mp4"));
                         }
                     } else {
@@ -224,6 +233,12 @@ public class Controller implements Initializable{
                         Vid.speedManipulation(file.getName().substring(0, file.getName().lastIndexOf('.')) + "2" + ".mp4", numberInput);
                         Vid.replace(file.getName().substring(0, file.getName().lastIndexOf('.')) + "2" + ".mp4", file.getName().substring(0, file.getName().lastIndexOf('.')) + "2edit" + ".mp4");
                         Vid.concatenateFin(file.getName(), file.getName().substring(0, file.getName().lastIndexOf('.')) + "output" + ".mp4");
+                        File del2=new File(file.getName().substring(0, file.getName().lastIndexOf('.')) + "2" + ".mp4");
+                        del2.deleteOnExit();
+                        File del3=new File(file.getName().substring(0, file.getName().lastIndexOf('.')) + "3" + ".mp4");
+                        del3.deleteOnExit();
+                        File del4=new File(file.getName().substring(0, file.getName().lastIndexOf('.')) + "1" + ".mp4");
+                        del4.deleteOnExit();
                         playAfterChange(new File(file.getName().substring(0, file.getName().lastIndexOf('.')) + "output" + ".mp4"));
                     }
                 }
@@ -329,95 +344,153 @@ public class Controller implements Initializable{
                 mediaPlayer.pause();
                 numberInput = Double.parseDouble(typo.getText());
                 //implementacja
-                if (k[0] == 0 && k[1]==maks){
+                if ((k[0] == 0 && k[1]==maks) || k[1]==k[0]){
                     Vid.volumeManipulation(file.getName(),numberInput);
-
                     playAfterChange(new File(file.getName().substring(0, file.getName().lastIndexOf('.')) + "edit" + ".mp4"));
-                }else
-                if (k[0]==0 || k[1] == 0 || k[0] == maks || k[1] == maks ){
-                    if (mds1.getValue() == mds1.getMin() || mds1.getValue() == mds1.getMax()){
-                        double val2 = mds2.getValue();Duration duration1 =  new Duration(val2 * 60 * 1000);
-                        Vid.split(file.toString(), (long)duration1.toSeconds());
-                        Vid.volumeManipulation(file.getName().substring(0, file.getName().lastIndexOf('.')) + "1" + ".mp4",numberInput);
-                        Vid.replace(file.getName().substring(0, file.getName().lastIndexOf('.')) + "1" + ".mp4",file.getName().substring(0, file.getName().lastIndexOf('.')) + "1edit" + ".mp4");
-                        Vid.append(file.getName(),file.getName().substring(0, file.getName().lastIndexOf('.')) + "output" + ".mp4");
+                }
+                else {
+                    if (k[0] == 0 || k[1] == 0 || k[0] == maks || k[1] == maks) {
+                        if (mds1.getValue() == mds1.getMin() || mds1.getValue() == mds1.getMax()) {
+                            double val2 = mds2.getValue();
+                            Duration duration1 = new Duration(val2 * 60 * 1000);
+                            System.out.println(val2);
+                            Vid.split(file.toString(), (long) duration1.toSeconds());
+                            Vid.volumeManipulation(file.getName().substring(0, file.getName().lastIndexOf('.')) + "1" + ".mp4", numberInput);
+                            Vid.replace(file.getName().substring(0, file.getName().lastIndexOf('.')) + "1" + ".mp4", file.getName().substring(0, file.getName().lastIndexOf('.')) + "1edit" + ".mp4");
+                            Vid.append(file.getName(), file.getName().substring(0, file.getName().lastIndexOf('.')) + "output" + ".mp4");
+                            File del2=new File(file.getName().substring(0, file.getName().lastIndexOf('.')) + "2" + ".mp4");
+                            del2.deleteOnExit();
+                            File del4=new File(file.getName().substring(0, file.getName().lastIndexOf('.')) + "1" + ".mp4");
+                            del4.deleteOnExit();
+                            playAfterChange(new File(file.getName().substring(0, file.getName().lastIndexOf('.')) + "output" + ".mp4"));
+                        } else {
+                            val = mds1.getValue();
+                            duration = new Duration(val * 60 * 1000);
+                            System.out.println(val);
+                            Vid.split(file.toString(), (long) duration.toSeconds());
+                            Vid.volumeManipulation(file.getName().substring(0, file.getName().lastIndexOf('.')) + "2" + ".mp4", numberInput);
+                            Vid.replace(file.getName().substring(0, file.getName().lastIndexOf('.')) + "2" + ".mp4", file.getName().substring(0, file.getName().lastIndexOf('.')) + "2edit" + ".mp4");
+                            Vid.append(file.getName(), file.getName().substring(0, file.getName().lastIndexOf('.')) + "output" + ".mp4");
+                            File del2=new File(file.getName().substring(0, file.getName().lastIndexOf('.')) + "2" + ".mp4");
+                            del2.deleteOnExit();
+                            File del4=new File(file.getName().substring(0, file.getName().lastIndexOf('.')) + "1" + ".mp4");
+                            del4.deleteOnExit();
+                            playAfterChange(new File(file.getName().substring(0, file.getName().lastIndexOf('.')) + "output" + ".mp4"));
+                        }
+                    } else {
+                        Vid.cutPass(file.toString(), k[0], k[1]);
+                        Vid.volumeManipulation(file.getName().substring(0, file.getName().lastIndexOf('.')) + "2" + ".mp4", numberInput);
+                        Vid.replace(file.getName().substring(0, file.getName().lastIndexOf('.')) + "2" + ".mp4", file.getName().substring(0, file.getName().lastIndexOf('.')) + "2edit" + ".mp4");
+                        Vid.concatenateFin(file.getName(), file.getName().substring(0, file.getName().lastIndexOf('.')) + "output" + ".mp4");
+                        File del2=new File(file.getName().substring(0, file.getName().lastIndexOf('.')) + "2" + ".mp4");
+                        del2.deleteOnExit();
+                        File del3=new File(file.getName().substring(0, file.getName().lastIndexOf('.')) + "3" + ".mp4");
+                        del3.deleteOnExit();
+                        File del4=new File(file.getName().substring(0, file.getName().lastIndexOf('.')) + "1" + ".mp4");
+                        del4.deleteOnExit();
                         playAfterChange(new File(file.getName().substring(0, file.getName().lastIndexOf('.')) + "output" + ".mp4"));
-                    }else{
-                        val = mds1.getValue();duration =  new Duration(val * 60 * 1000);
-                        Vid.split(file.toString(), (long)duration.toSeconds());
-                        Vid.volumeManipulation(file.getName().substring(0, file.getName().lastIndexOf('.')) + "2" + ".mp4",numberInput);
-                        Vid.replace(file.getName().substring(0, file.getName().lastIndexOf('.')) + "2" + ".mp4",file.getName().substring(0, file.getName().lastIndexOf('.')) + "2edit" + ".mp4");
-                        Vid.append(file.getName(),file.getName().substring(0, file.getName().lastIndexOf('.')) + "output" + ".mp4");
-                        playAfterChange(new File(file.getName().substring(0, file.getName().lastIndexOf('.')) + "output" + ".mp4"));            }
-                }else{
-                    Vid.cutPass(file.toString(), k[0], k[1]);
-                    Vid.volumeManipulation(file.getName().substring(0, file.getName().lastIndexOf('.')) + "2" + ".mp4",numberInput);
-                    Vid.replace(file.getName().substring(0, file.getName().lastIndexOf('.')) + "2" + ".mp4",file.getName().substring(0, file.getName().lastIndexOf('.')) + "2edit" + ".mp4");
-                    Vid.concatenateFin(file.getName(),file.getName().substring(0, file.getName().lastIndexOf('.')) + "output" + ".mp4");
-                    playAfterChange(new File(file.getName().substring(0, file.getName().lastIndexOf('.')) + "output" + ".mp4"));
+                    }
                 }
                 break;
             case 2:
                 mediaPlayer.pause();
                 numberInput = Double.parseDouble(typo.getText());
                 //implementacja
-                if (k[0] == 0 && k[1]==maks){
-                    Vid.speedManipulation(file.getName().substring(0, file.getName().lastIndexOf('.')) + ".mp4",numberInput);
-                    Vid.replace(file.getName().substring(0, file.getName().lastIndexOf('.')) + ".mp4",file.getName().substring(0, file.getName().lastIndexOf('.')) + "edit" + ".mp4");
+                if ((k[0] == 0 && k[1]==maks)||k[0]==k[1]){
+                    Vid.speedManipulation(file.getName(),numberInput);
+                    File file1 = new File(file.getName().substring(0, file.getName().lastIndexOf('.')) + "edit" + ".mp4");
+                    playAfterChange(file1);
                 }
-                if (k[0]==0 || k[1] == 0 || k[0] == maks || k[1] == maks ){
-                    if (mds1.getValue() == mds1.getMin() || mds1.getValue() == mds1.getMax()){
-                        double val2 = mds2.getValue();Duration duration1 =  new Duration(val2 * 60 * 1000);
-                        Vid.split(file.toString(), (long)duration1.toSeconds());
-                        Vid.speedManipulation(file.getName().substring(0, file.getName().lastIndexOf('.')) + "1" + ".mp4",numberInput);
-                        Vid.replace(file.getName().substring(0, file.getName().lastIndexOf('.')) + "1" + ".mp4",file.getName().substring(0, file.getName().lastIndexOf('.')) + "1edit" + ".mp4");
-                        Vid.append(file.getName(),file.getName().substring(0, file.getName().lastIndexOf('.')) + "output" + ".mp4");
+                else {
+                    if (k[0] == 0 || k[1] == 0 || k[0] == maks || k[1] == maks || k[0] == k[1]) {
+                        if (mds1.getValue() == mds1.getMin() || mds1.getValue() == mds1.getMax()) {
+                            double val2 = mds2.getValue();
+                            Duration duration1 = new Duration(val2 * 60 * 1000);
+                            Vid.split(file.toString(), (long) duration1.toSeconds());
+                            Vid.speedManipulation(file.getName().substring(0, file.getName().lastIndexOf('.')) + "1" + ".mp4", numberInput);
+                            Vid.replace(file.getName().substring(0, file.getName().lastIndexOf('.')) + "1" + ".mp4", file.getName().substring(0, file.getName().lastIndexOf('.')) + "1edit" + ".mp4");
+                            Vid.append(file.getName(), file.getName().substring(0, file.getName().lastIndexOf('.')) + "output" + ".mp4");
+                            File del2=new File(file.getName().substring(0, file.getName().lastIndexOf('.')) + "2" + ".mp4");
+                            del2.deleteOnExit();
+                            File del4=new File(file.getName().substring(0, file.getName().lastIndexOf('.')) + "1" + ".mp4");
+                            del4.deleteOnExit();
+                            playAfterChange(new File(file.getName().substring(0, file.getName().lastIndexOf('.')) + "output" + ".mp4"));
+                        } else {
+                            val = mds1.getValue();
+                            duration = new Duration(val * 60 * 1000);
+                            Vid.split(file.toString(), (long) duration.toSeconds());
+                            Vid.speedManipulation(file.getName().substring(0, file.getName().lastIndexOf('.')) + "2" + ".mp4", numberInput);
+                            Vid.replace(file.getName().substring(0, file.getName().lastIndexOf('.')) + "2" + ".mp4", file.getName().substring(0, file.getName().lastIndexOf('.')) + "2edit" + ".mp4");
+                            Vid.append(file.getName(), file.getName().substring(0, file.getName().lastIndexOf('.')) + "output" + ".mp4");
+                            File del2=new File(file.getName().substring(0, file.getName().lastIndexOf('.')) + "2" + ".mp4");
+                            del2.deleteOnExit();
+                            File del4=new File(file.getName().substring(0, file.getName().lastIndexOf('.')) + "1" + ".mp4");
+                            del4.deleteOnExit();
+                            playAfterChange(new File(file.getName().substring(0, file.getName().lastIndexOf('.')) + "output" + ".mp4"));
+                        }
+                    } else {
+                        Vid.cutPass(file.toString(), k[0], k[1]);
+                        Vid.speedManipulation(file.getName().substring(0, file.getName().lastIndexOf('.')) + "2" + ".mp4", numberInput);
+                        Vid.replace(file.getName().substring(0, file.getName().lastIndexOf('.')) + "2" + ".mp4", file.getName().substring(0, file.getName().lastIndexOf('.')) + "2edit" + ".mp4");
+                        Vid.concatenateFin(file.getName(), file.getName().substring(0, file.getName().lastIndexOf('.')) + "output" + ".mp4");
+                        File del2=new File(file.getName().substring(0, file.getName().lastIndexOf('.')) + "2" + ".mp4");
+                        del2.deleteOnExit();
+                        File del3=new File(file.getName().substring(0, file.getName().lastIndexOf('.')) + "3" + ".mp4");
+                        del3.deleteOnExit();
+                        File del4=new File(file.getName().substring(0, file.getName().lastIndexOf('.')) + "1" + ".mp4");
+                        del4.deleteOnExit();
                         playAfterChange(new File(file.getName().substring(0, file.getName().lastIndexOf('.')) + "output" + ".mp4"));
-                    }else{
-                        val = mds1.getValue();duration =  new Duration(val * 60 * 1000);
-                        Vid.split(file.toString(), (long)duration.toSeconds());
-                        Vid.speedManipulation(file.getName().substring(0, file.getName().lastIndexOf('.')) + "2" + ".mp4",numberInput);
-                        Vid.replace(file.getName().substring(0, file.getName().lastIndexOf('.')) + "2" + ".mp4",file.getName().substring(0, file.getName().lastIndexOf('.')) + "2edit" + ".mp4");
-                        Vid.append(file.getName(),file.getName().substring(0, file.getName().lastIndexOf('.')) + "output" + ".mp4");
-                        playAfterChange(new File(file.getName().substring(0, file.getName().lastIndexOf('.')) + "output" + ".mp4"));            }
-                }else{
-                    Vid.cutPass(file.toString(), k[0], k[1]);
-                    Vid.speedManipulation(file.getName().substring(0, file.getName().lastIndexOf('.')) + "2" + ".mp4",numberInput);
-                    Vid.replace(file.getName().substring(0, file.getName().lastIndexOf('.')) + "2" + ".mp4",file.getName().substring(0, file.getName().lastIndexOf('.')) + "2edit" + ".mp4");
-                    Vid.concatenateFin(file.getName(),file.getName().substring(0, file.getName().lastIndexOf('.')) + "output" + ".mp4");
-                    playAfterChange(new File(file.getName().substring(0, file.getName().lastIndexOf('.')) + "output" + ".mp4"));
+                    }
                 }
                 break;
             case 3:
                 mediaPlayer.pause();
                 textInput = typo.getText();
                 String[] inputs = textInput.split(" ");
-                //implementacja
-                if (k[0] == 0 && k[1]==maks){
-                    Vid.colorBalance(file.getName().substring(0, file.getName().lastIndexOf('.')) + ".mp4",Double.parseDouble(inputs[2]),inputs[0],inputs[1]);
-                    Vid.replace(file.getName().substring(0, file.getName().lastIndexOf('.')) + ".mp4",file.getName().substring(0, file.getName().lastIndexOf('.')) + "edit" + ".mp4");
-                }
-                if (k[0]==0 || k[1] == 0 || k[0] == maks || k[1] == maks ){
-                    if (mds1.getValue() == mds1.getMin() || mds1.getValue() == mds1.getMax()){
-                        double val2 = mds2.getValue();Duration duration1 =  new Duration(val2 * 60 * 1000);
-                        Vid.split(file.toString(), (long)duration1.toSeconds());
-                        Vid.colorBalance(file.getName().substring(0, file.getName().lastIndexOf('.')) + "1" + ".mp4",Double.parseDouble(inputs[2]),inputs[0],inputs[1]);
-                        Vid.replace(file.getName().substring(0, file.getName().lastIndexOf('.')) + "1" + ".mp4",file.getName().substring(0, file.getName().lastIndexOf('.')) + "1edit" + ".mp4");
-                        Vid.append(file.getName(),file.getName().substring(0, file.getName().lastIndexOf('.')) + "output" + ".mp4");
-                        playAfterChange(new File(file.getName().substring(0, file.getName().lastIndexOf('.')) + "output" + ".mp4"));
-                    }else{
-                        val = mds1.getValue();duration =  new Duration(val * 60 * 1000);
-                        Vid.split(file.toString(), (long)duration.toSeconds());
-                        Vid.colorBalance(file.getName().substring(0, file.getName().lastIndexOf('.')) + "2" + ".mp4",Double.parseDouble(inputs[2]),inputs[0],inputs[1]);
-                        Vid.replace(file.getName().substring(0, file.getName().lastIndexOf('.')) + "2" + ".mp4",file.getName().substring(0, file.getName().lastIndexOf('.')) + "2edit" + ".mp4");
-                        Vid.append(file.getName(),file.getName().substring(0, file.getName().lastIndexOf('.')) + "output" + ".mp4");
-                        playAfterChange(new File(file.getName().substring(0, file.getName().lastIndexOf('.')) + "output" + ".mp4"));            }
-                }else{
+                //ColorBalance byl bardzo problematyczny, ale kosztem pamieci i czasu sie z nim uporalismy
+                if(k[0]==0) {
+                    k[0] = 1;
+                    k[1] = (long) mediaPlayer.getTotalDuration().toSeconds();
+                    Vid.buffer(file.toString());
+                    Vid.simpleAppend("buffer.mp4", file.toString(), file.getName().substring(0, file.getName().lastIndexOf('.')) + "edit" + ".mp4");
+                    Vid.simpleAppend(file.getName().substring(0, file.getName().lastIndexOf('.')) + "edit" + ".mp4", "buffer.mp4", file.getName().substring(0, file.getName().lastIndexOf('.')) + "edit1" + ".mp4");
+                    File del1 = new File("buffer.mp4");
+                    File del2 = new File(file.getName().substring(0, file.getName().lastIndexOf('.')) + "edit" + ".mp4");
+                    File del3 = new File(file.getName().substring(0, file.getName().lastIndexOf('.')) + "edit1" + ".mp4");
+                    file = new File(file.getName().substring(0, file.getName().lastIndexOf('.')) + "edit1" + ".mp4");
                     Vid.cutPass(file.toString(), k[0], k[1]);
+                    File del4 = new File(file.getName().substring(0, file.getName().lastIndexOf('.')) + "1" + ".mp4");
+                    File del6 = new File(file.getName().substring(0, file.getName().lastIndexOf('.')) + "3" + ".mp4");
+                    Vid.colorBalance(file.getName().substring(0, file.getName().lastIndexOf('.')) + "2" + ".mp4", Double.parseDouble(inputs[2]), inputs[0], inputs[1]);
+                    //Wczytany plik colorbalance w tym miejscu by sie nie zaladowal - z nieznanych lecz niezaleznych od nas przyczyn
+                    Vid.replace(file.getName().substring(0, file.getName().lastIndexOf('.')) + "2" + ".mp4", file.getName().substring(0, file.getName().lastIndexOf('.')) + "2edit" + ".mp4");
+                    File del5 = new File(file.getName().substring(0, file.getName().lastIndexOf('.')) + "2" + ".mp4");
+                    Vid.concatenateFin(file.getName(), file.getName().substring(0, file.getName().lastIndexOf('.')) + "output" + ".mp4");
+                    Vid.cutPass(file.getName().substring(0, file.getName().lastIndexOf('.')) + "output" + ".mp4", k[0], k[1]);
+                    File del7 = new File(file.getName().substring(0, file.getName().lastIndexOf('.')) + "output1" + ".mp4");
+                    File del8 = new File(file.getName().substring(0, file.getName().lastIndexOf('.')) + "output3" + ".mp4");
+                    File del9 = new File(file.getName().substring(0, file.getName().lastIndexOf('.')) + "output" + ".mp4");
+                    playAfterChange(new File(file.getName().substring(0, file.getName().lastIndexOf('.')) + "output2" + ".mp4"));
+                    del1.deleteOnExit();
+                    del2.deleteOnExit();
+                    del3.deleteOnExit();
+                    del4.deleteOnExit();
+                    del5.deleteOnExit();
+                    del6.deleteOnExit();
+                    del7.deleteOnExit();
+                    del8.deleteOnExit();
+                    del9.deleteOnExit();
+                }
+                else {
+                    Vid.cutPass(file.toString(), k[0], k[1]);
+                    File del1 = new File(file.getName().substring(0, file.getName().lastIndexOf('.')) + "1" + ".mp4");
+                    File del2 = new File(file.getName().substring(0, file.getName().lastIndexOf('.')) + "3" + ".mp4");
                     Vid.colorBalance(file.getName().substring(0, file.getName().lastIndexOf('.')) + "2" + ".mp4",Double.parseDouble(inputs[2]),inputs[0],inputs[1]);
                     Vid.replace(file.getName().substring(0, file.getName().lastIndexOf('.')) + "2" + ".mp4",file.getName().substring(0, file.getName().lastIndexOf('.')) + "2edit" + ".mp4");
                     Vid.concatenateFin(file.getName(),file.getName().substring(0, file.getName().lastIndexOf('.')) + "output" + ".mp4");
                     playAfterChange(new File(file.getName().substring(0, file.getName().lastIndexOf('.')) + "output" + ".mp4"));
+                    del1.deleteOnExit();
+                    del2.deleteOnExit();
                 }
                 break;
             case 4:
