@@ -186,7 +186,6 @@ public class VideoEffectsTemp {
         if(level.equals("low"))
             level="s";
         String colorBalance=String.valueOf(Character.toLowerCase(color.charAt(0)))  +String.valueOf(Character.toLowerCase(level.charAt(0)));
-        File inputFile = new File(filename);
         FFmpegBuilder builder = new FFmpegBuilder()
                 .setInput(filename)     // Filename, or a FFmpegProbeResult
                 .overrideOutputFiles(true) // Override the output if it exists
@@ -194,7 +193,6 @@ public class VideoEffectsTemp {
                 .setFormat("mp4")        // Format is inferred from filename, or can be set
                 .done().setComplexFilter("colorbalance="+colorBalance+"="+intensity);
         executor.createJob(builder).run();
-        inputFile.delete();
     }
 
     public static void volumeManipulation(String filename, double volume){  //zmienia glosnosc

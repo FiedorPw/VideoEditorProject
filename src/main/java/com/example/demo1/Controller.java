@@ -177,9 +177,8 @@ public class Controller implements Initializable{
                 numberInput = Double.parseDouble(typo.getText());
                 //implementacja
                 if ((k[0] == 0 && k[1]==maks)||k[0]==k[1]){
-                    Vid.speedManipulation(file.getName().substring(0, file.getName().lastIndexOf('.')) + ".mp4",numberInput);
-                    Vid.replace(file.getName().substring(0, file.getName().lastIndexOf('.')) + ".mp4",file.getName().substring(0, file.getName().lastIndexOf('.')) + "edit" + ".mp4");
-                    playAfterChange(new File(file.getName().substring(0, file.getName().lastIndexOf('.')) + "output" + ".mp4"));
+                    Vid.speedManipulation(file.getName(),numberInput);
+                     playAfterChange(new File(file.getName().substring(0, file.getName().lastIndexOf('.')) + "edit" + ".mp4"));
                 }
                 else {
                     if (k[0] == 0 || k[1] == 0 || k[0] == maks || k[1] == maks || k[0] == k[1]) {
@@ -215,9 +214,8 @@ public class Controller implements Initializable{
                 String[] inputs = textInput.split(" ");
                 //implementacja
                 if ((k[0] == 0 && k[1]==maks)||k[0]==k[1]){
-                    Vid.colorBalance(file.getName().substring(0, file.getName().lastIndexOf('.')) + ".mp4",Double.parseDouble(inputs[2]),inputs[0],inputs[1]);
-                    Vid.replace(file.getName().substring(0, file.getName().lastIndexOf('.')) + ".mp4",file.getName().substring(0, file.getName().lastIndexOf('.')) + "edit" + ".mp4");
-                    playAfterChange(new File(file.getName().substring(0, file.getName().lastIndexOf('.')) + "output" + ".mp4"));
+                    Vid.colorBalance(file.getName(),Double.parseDouble(inputs[2]),inputs[0],inputs[1]);
+                    playAfterChange(new File(file.getName().substring(0, file.getName().lastIndexOf('.')) + "edit" + ".mp4"));
                 }
                 else {
                     if (k[0] == 0 || k[1] == 0 || k[0] == maks || k[1] == maks) {
@@ -345,11 +343,10 @@ public class Controller implements Initializable{
         double val = mds1.getMax();
         Duration duration =  new Duration(val * 60 * 1000);
         long maks = (long)duration.toSeconds();
-        if (k[0] == 0 && k[1]==maks){
+        if (k[0] == 0 && k[1]==maks || k[0]==k[1]){
             Vid.blur(file.getName().substring(0, file.getName().lastIndexOf('.')) + ".mp4",20);
-            Vid.replace(file.getName().substring(0, file.getName().lastIndexOf('.')) + ".mp4",file.getName().substring(0, file.getName().lastIndexOf('.')) + "edit" + ".mp4");
-
-        }
+            playAfterChange(new File(file.getName().substring(0, file.getName().lastIndexOf('.')) + "edit" + ".mp4"));
+        }else
         if (k[0]==0 || k[1] == 0 || k[0] == maks || k[1] == maks ){
             if (mds1.getValue() == mds1.getMin() || mds1.getValue() == mds1.getMax()){
                 double val2 = mds2.getValue();Duration duration1 =  new Duration(val2 * 60 * 1000);
