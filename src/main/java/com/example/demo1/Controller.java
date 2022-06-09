@@ -119,7 +119,8 @@ public class Controller implements Initializable{
         mediaPlayer.pause();
     }
     public void fileChooser(){
-
+        warningLabel.setText("Wpisz nazwę pliku w polu tekstowym i zatwierdź klikając 'OK'");
+        operation = 5;
     }
     public void operationChooser(){
         long[] k = sliderDif();
@@ -222,6 +223,10 @@ public class Controller implements Initializable{
             case 4:
                 textInput = typo.getText();
                 Vid.compress(file.getName().substring(0, file.getName().lastIndexOf('.')) + ".mp4", textInput);
+                break;
+            case 5:
+                file = new File(typo.getText());
+                playAfterChange(file);
                 break;
 
         }
