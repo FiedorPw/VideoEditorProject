@@ -144,8 +144,8 @@ public class Controller implements Initializable{
                 numberInput = Double.parseDouble(typo.getText());
                 //implementacja
                 if ((k[0] == 0 && k[1]==maks) || k[1]==k[0]){
-                    Vid.volumeManipulation(file.getName().substring(0, file.getName().lastIndexOf('.')) + ".mp4",numberInput);
-                     playAfterChange(new File(file.getName().substring(0, file.getName().lastIndexOf('.')) + "output" + ".mp4"));
+                    Vid.volumeManipulation(file.getName(),numberInput);
+                    playAfterChange(new File(file.getName().substring(0, file.getName().lastIndexOf('.')) + "edit" + ".mp4"));
                 }
                 else {
                     if (k[0] == 0 || k[1] == 0 || k[0] == maks || k[1] == maks) {
@@ -157,6 +157,12 @@ public class Controller implements Initializable{
                             Vid.volumeManipulation(file.getName().substring(0, file.getName().lastIndexOf('.')) + "1" + ".mp4", numberInput);
                             Vid.replace(file.getName().substring(0, file.getName().lastIndexOf('.')) + "1" + ".mp4", file.getName().substring(0, file.getName().lastIndexOf('.')) + "1edit" + ".mp4");
                             Vid.append(file.getName(), file.getName().substring(0, file.getName().lastIndexOf('.')) + "output" + ".mp4");
+                            File del2=new File(file.getName().substring(0, file.getName().lastIndexOf('.')) + "2" + ".mp4");
+                            del2.deleteOnExit();
+                            File del3=new File(file.getName().substring(0, file.getName().lastIndexOf('.')) + "3" + ".mp4");
+                            del3.deleteOnExit();
+                            File del4=new File(file.getName().substring(0, file.getName().lastIndexOf('.')) + "1" + ".mp4");
+                            del4.deleteOnExit();
                             playAfterChange(new File(file.getName().substring(0, file.getName().lastIndexOf('.')) + "output" + ".mp4"));
                         } else {
                             val = mds1.getValue();
@@ -166,6 +172,12 @@ public class Controller implements Initializable{
                             Vid.volumeManipulation(file.getName().substring(0, file.getName().lastIndexOf('.')) + "2" + ".mp4", numberInput);
                             Vid.replace(file.getName().substring(0, file.getName().lastIndexOf('.')) + "2" + ".mp4", file.getName().substring(0, file.getName().lastIndexOf('.')) + "2edit" + ".mp4");
                             Vid.append(file.getName(), file.getName().substring(0, file.getName().lastIndexOf('.')) + "output" + ".mp4");
+                            File del2=new File(file.getName().substring(0, file.getName().lastIndexOf('.')) + "2" + ".mp4");
+                            del2.deleteOnExit();
+                            File del3=new File(file.getName().substring(0, file.getName().lastIndexOf('.')) + "3" + ".mp4");
+                            del3.deleteOnExit();
+                            File del4=new File(file.getName().substring(0, file.getName().lastIndexOf('.')) + "1" + ".mp4");
+                            del4.deleteOnExit();
                             playAfterChange(new File(file.getName().substring(0, file.getName().lastIndexOf('.')) + "output" + ".mp4"));
                         }
                     } else {
@@ -173,6 +185,12 @@ public class Controller implements Initializable{
                         Vid.volumeManipulation(file.getName().substring(0, file.getName().lastIndexOf('.')) + "2" + ".mp4", numberInput);
                         Vid.replace(file.getName().substring(0, file.getName().lastIndexOf('.')) + "2" + ".mp4", file.getName().substring(0, file.getName().lastIndexOf('.')) + "2edit" + ".mp4");
                         Vid.concatenateFin(file.getName(), file.getName().substring(0, file.getName().lastIndexOf('.')) + "output" + ".mp4");
+                        File del2=new File(file.getName().substring(0, file.getName().lastIndexOf('.')) + "2" + ".mp4");
+                        del2.deleteOnExit();
+                        File del3=new File(file.getName().substring(0, file.getName().lastIndexOf('.')) + "3" + ".mp4");
+                        del3.deleteOnExit();
+                        File del4=new File(file.getName().substring(0, file.getName().lastIndexOf('.')) + "1" + ".mp4");
+                        del4.deleteOnExit();
                         playAfterChange(new File(file.getName().substring(0, file.getName().lastIndexOf('.')) + "output" + ".mp4"));
                     }
                 }
@@ -316,9 +334,10 @@ public class Controller implements Initializable{
                 numberInput = Double.parseDouble(typo.getText());
                 //implementacja
                 if (k[0] == 0 && k[1]==maks){
-                    Vid.volumeManipulation(file.getName().substring(0, file.getName().lastIndexOf('.')) + ".mp4",numberInput);
-                    Vid.replace(file.getName().substring(0, file.getName().lastIndexOf('.')) + ".mp4",file.getName().substring(0, file.getName().lastIndexOf('.')) + "edit" + ".mp4");
-                }
+                    Vid.volumeManipulation(file.getName(),numberInput);
+
+                    playAfterChange(new File(file.getName().substring(0, file.getName().lastIndexOf('.')) + "edit" + ".mp4"));
+                }else
                 if (k[0]==0 || k[1] == 0 || k[0] == maks || k[1] == maks ){
                     if (mds1.getValue() == mds1.getMin() || mds1.getValue() == mds1.getMax()){
                         double val2 = mds2.getValue();Duration duration1 =  new Duration(val2 * 60 * 1000);
