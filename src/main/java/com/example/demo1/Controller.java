@@ -272,7 +272,7 @@ public class Controller implements Initializable{
         }
         operation = 0;
     }
-    public void invokeMetods() throws FileNotFoundException {
+    public void invokeMetods(int numCase) throws FileNotFoundException {
         queue.load();
         ArrayList<Integer> listOfmetods = queue.listOfmetods;
         ArrayList<long[]> kList = queue.kList;
