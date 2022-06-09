@@ -3,9 +3,12 @@ package com.example.demo1;
 
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.net.URL;
 
-import java.nio.file.NoSuchFileException;
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.ResourceBundle;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -32,7 +35,7 @@ import javafx.util.Duration;
 public class Controller implements Initializable{
     //vid eff
     VideoEffectsTemp Vid = new VideoEffectsTemp();
-
+    Queue queue = new Queue();
 
     @FXML
     private MediaView mediaView;
@@ -269,7 +272,151 @@ public class Controller implements Initializable{
         }
         operation = 0;
     }
-    public void colorBalance(){
+    public void invokeMetods() throws FileNotFoundException {
+        queue.load();
+        ArrayList<Integer> listOfmetods = queue.listOfmetods;
+        ArrayList<long[]> kList = queue.kList;
+        ArrayList<String> textInputList =queue.textInputList;
+        ArrayList<Double> numberInputList = queue.numberInputList;
+
+
+        for (int i = 0; i < listOfmetods.size(); i++) {
+            operation = listOfmetods.get(i);
+            long[] k = kList.get(i);
+            textInput = textInputList.get(i);
+            numberInput = numberInputList.get(i);
+
+            operationChooser(k);
+        }
+
+    }
+    public void operationChooser(long[] k){
+
+        double val = mds1.getMax();
+        Duration duration =  new Duration(val * 60 * 1000);
+        long maks = (long)duration.toSeconds();
+        warningLabel.setText("");
+        switch (operation){
+            case 1:
+                mediaPlayer.pause();
+                numberInput = Double.parseDouble(typo.getText());
+                //implementacja
+                if (k[0] == 0 && k[1]==maks){
+                    Vid.volumeManipulation(file.getName().substring(0, file.getName().lastIndexOf('.')) + ".mp4",numberInput);
+                    Vid.replace(file.getName().substring(0, file.getName().lastIndexOf('.')) + ".mp4",file.getName().substring(0, file.getName().lastIndexOf('.')) + "edit" + ".mp4");
+                }
+                if (k[0]==0 || k[1] == 0 || k[0] == maks || k[1] == maks ){
+                    if (mds1.getValue() == mds1.getMin() || mds1.getValue() == mds1.getMax()){
+                        double val2 = mds2.getValue();Duration duration1 =  new Duration(val2 * 60 * 1000);
+                        Vid.split(file.toString(), (long)duration1.toSeconds());
+                        Vid.volumeManipulation(file.getName().substring(0, file.getName().lastIndexOf('.')) + "1" + ".mp4",numberInput);
+                        Vid.replace(file.getName().substring(0, file.getName().lastIndexOf('.')) + "1" + ".mp4",file.getName().substring(0, file.getName().lastIndexOf('.')) + "1edit" + ".mp4");
+                        Vid.append(file.getName(),file.getName().substring(0, file.getName().lastIndexOf('.')) + "output" + ".mp4");
+                        playAfterChange(new File(file.getName().substring(0, file.getName().lastIndexOf('.')) + "output" + ".mp4"));
+                    }else{
+                        val = mds1.getValue();duration =  new Duration(val * 60 * 1000);
+                        Vid.split(file.toString(), (long)duration.toSeconds());
+                        Vid.volumeManipulation(file.getName().substring(0, file.getName().lastIndexOf('.')) + "2" + ".mp4",numberInput);
+                        Vid.replace(file.getName().substring(0, file.getName().lastIndexOf('.')) + "2" + ".mp4",file.getName().substring(0, file.getName().lastIndexOf('.')) + "2edit" + ".mp4");
+                        Vid.append(file.getName(),file.getName().substring(0, file.getName().lastIndexOf('.')) + "output" + ".mp4");
+                        playAfterChange(new File(file.getName().substring(0, file.getName().lastIndexOf('.')) + "output" + ".mp4"));            }
+                }else{
+                    Vid.cutPass(file.toString(), k[0], k[1]);
+                    Vid.volumeManipulation(file.getName().substring(0, file.getName().lastIndexOf('.')) + "2" + ".mp4",numberInput);
+                    Vid.replace(file.getName().substring(0, file.getName().lastIndexOf('.')) + "2" + ".mp4",file.getName().substring(0, file.getName().lastIndexOf('.')) + "2edit" + ".mp4");
+                    Vid.concatenateFin(file.getName(),file.getName().substring(0, file.getName().lastIndexOf('.')) + "output" + ".mp4");
+                    playAfterChange(new File(file.getName().substring(0, file.getName().lastIndexOf('.')) + "output" + ".mp4"));
+                }
+                break;
+            case 2:
+                mediaPlayer.pause();
+                numberInput = Double.parseDouble(typo.getText());
+                //implementacja
+                if (k[0] == 0 && k[1]==maks){
+                    Vid.speedManipulation(file.getName().substring(0, file.getName().lastIndexOf('.')) + ".mp4",numberInput);
+                    Vid.replace(file.getName().substring(0, file.getName().lastIndexOf('.')) + ".mp4",file.getName().substring(0, file.getName().lastIndexOf('.')) + "edit" + ".mp4");
+                }
+                if (k[0]==0 || k[1] == 0 || k[0] == maks || k[1] == maks ){
+                    if (mds1.getValue() == mds1.getMin() || mds1.getValue() == mds1.getMax()){
+                        double val2 = mds2.getValue();Duration duration1 =  new Duration(val2 * 60 * 1000);
+                        Vid.split(file.toString(), (long)duration1.toSeconds());
+                        Vid.speedManipulation(file.getName().substring(0, file.getName().lastIndexOf('.')) + "1" + ".mp4",numberInput);
+                        Vid.replace(file.getName().substring(0, file.getName().lastIndexOf('.')) + "1" + ".mp4",file.getName().substring(0, file.getName().lastIndexOf('.')) + "1edit" + ".mp4");
+                        Vid.append(file.getName(),file.getName().substring(0, file.getName().lastIndexOf('.')) + "output" + ".mp4");
+                        playAfterChange(new File(file.getName().substring(0, file.getName().lastIndexOf('.')) + "output" + ".mp4"));
+                    }else{
+                        val = mds1.getValue();duration =  new Duration(val * 60 * 1000);
+                        Vid.split(file.toString(), (long)duration.toSeconds());
+                        Vid.speedManipulation(file.getName().substring(0, file.getName().lastIndexOf('.')) + "2" + ".mp4",numberInput);
+                        Vid.replace(file.getName().substring(0, file.getName().lastIndexOf('.')) + "2" + ".mp4",file.getName().substring(0, file.getName().lastIndexOf('.')) + "2edit" + ".mp4");
+                        Vid.append(file.getName(),file.getName().substring(0, file.getName().lastIndexOf('.')) + "output" + ".mp4");
+                        playAfterChange(new File(file.getName().substring(0, file.getName().lastIndexOf('.')) + "output" + ".mp4"));            }
+                }else{
+                    Vid.cutPass(file.toString(), k[0], k[1]);
+                    Vid.speedManipulation(file.getName().substring(0, file.getName().lastIndexOf('.')) + "2" + ".mp4",numberInput);
+                    Vid.replace(file.getName().substring(0, file.getName().lastIndexOf('.')) + "2" + ".mp4",file.getName().substring(0, file.getName().lastIndexOf('.')) + "2edit" + ".mp4");
+                    Vid.concatenateFin(file.getName(),file.getName().substring(0, file.getName().lastIndexOf('.')) + "output" + ".mp4");
+                    playAfterChange(new File(file.getName().substring(0, file.getName().lastIndexOf('.')) + "output" + ".mp4"));
+                }
+                break;
+            case 3:
+                mediaPlayer.pause();
+                textInput = typo.getText();
+                String[] inputs = textInput.split(" ");
+                //implementacja
+                if (k[0] == 0 && k[1]==maks){
+                    Vid.colorBalance(file.getName().substring(0, file.getName().lastIndexOf('.')) + ".mp4",Double.parseDouble(inputs[2]),inputs[0],inputs[1]);
+                    Vid.replace(file.getName().substring(0, file.getName().lastIndexOf('.')) + ".mp4",file.getName().substring(0, file.getName().lastIndexOf('.')) + "edit" + ".mp4");
+                }
+                if (k[0]==0 || k[1] == 0 || k[0] == maks || k[1] == maks ){
+                    if (mds1.getValue() == mds1.getMin() || mds1.getValue() == mds1.getMax()){
+                        double val2 = mds2.getValue();Duration duration1 =  new Duration(val2 * 60 * 1000);
+                        Vid.split(file.toString(), (long)duration1.toSeconds());
+                        Vid.colorBalance(file.getName().substring(0, file.getName().lastIndexOf('.')) + "1" + ".mp4",Double.parseDouble(inputs[2]),inputs[0],inputs[1]);
+                        Vid.replace(file.getName().substring(0, file.getName().lastIndexOf('.')) + "1" + ".mp4",file.getName().substring(0, file.getName().lastIndexOf('.')) + "1edit" + ".mp4");
+                        Vid.append(file.getName(),file.getName().substring(0, file.getName().lastIndexOf('.')) + "output" + ".mp4");
+                        playAfterChange(new File(file.getName().substring(0, file.getName().lastIndexOf('.')) + "output" + ".mp4"));
+                    }else{
+                        val = mds1.getValue();duration =  new Duration(val * 60 * 1000);
+                        Vid.split(file.toString(), (long)duration.toSeconds());
+                        Vid.colorBalance(file.getName().substring(0, file.getName().lastIndexOf('.')) + "2" + ".mp4",Double.parseDouble(inputs[2]),inputs[0],inputs[1]);
+                        Vid.replace(file.getName().substring(0, file.getName().lastIndexOf('.')) + "2" + ".mp4",file.getName().substring(0, file.getName().lastIndexOf('.')) + "2edit" + ".mp4");
+                        Vid.append(file.getName(),file.getName().substring(0, file.getName().lastIndexOf('.')) + "output" + ".mp4");
+                        playAfterChange(new File(file.getName().substring(0, file.getName().lastIndexOf('.')) + "output" + ".mp4"));            }
+                }else{
+                    Vid.cutPass(file.toString(), k[0], k[1]);
+                    Vid.colorBalance(file.getName().substring(0, file.getName().lastIndexOf('.')) + "2" + ".mp4",Double.parseDouble(inputs[2]),inputs[0],inputs[1]);
+                    Vid.replace(file.getName().substring(0, file.getName().lastIndexOf('.')) + "2" + ".mp4",file.getName().substring(0, file.getName().lastIndexOf('.')) + "2edit" + ".mp4");
+                    Vid.concatenateFin(file.getName(),file.getName().substring(0, file.getName().lastIndexOf('.')) + "output" + ".mp4");
+                    playAfterChange(new File(file.getName().substring(0, file.getName().lastIndexOf('.')) + "output" + ".mp4"));
+                }
+                break;
+            case 4:
+                mediaPlayer.pause();
+                textInput = typo.getText();
+                Vid.compress(file.getName(), textInput);
+                break;
+            case 5:
+                mediaPlayer.pause();
+                file = new File(typo.getText());
+                playAfterChange(file);
+                break;
+            case 6:
+                mediaPlayer.pause();
+                textInput = typo.getText().split(" ")[1];
+                numberInput = Integer.parseInt(typo.getText().split(" ")[0]);
+                if(numberInput==1)
+                    Vid.simpleAppend(file.getName(),textInput,file.getName().substring(0, file.getName().lastIndexOf('.')) + "merge.mp4");
+                if(numberInput==0)
+                    Vid.simpleAppend(textInput,file.getName(),file.getName().substring(0, file.getName().lastIndexOf('.')) + "merge.mp4");
+                file = new File(file.getName().substring(0, file.getName().lastIndexOf('.')) + "merge.mp4");
+                playAfterChange(file);
+                break;
+        }
+        operation = 0;
+    }
+    public void colorBalance() throws IOException {
+        queue.save(3,sliderDif(),textInput,numberInput);
         warningLabel.setText("Wpisz kolor (red/blue/green), ton (shadows/midtones/highlights) oraz wartość z przedziału [-1.0, 1.0] w polu tekstowym i zatwierdź klikając 'OK'");
         operation = 3;
     }
@@ -279,8 +426,9 @@ public class Controller implements Initializable{
 
     }
 
-    public void changeVolume(ActionEvent event){
+    public void changeVolume(ActionEvent event) throws IOException {
         warningLabel.setText("Wpisz wartość (domyślnie 1.0) w polu tekstowym i zatwierdź klikając 'OK'");
+        queue.save(1,sliderDif(),textInput,numberInput);
         operation = 1;
     }
 
@@ -291,8 +439,9 @@ public class Controller implements Initializable{
      return String.format("%02d:%02d",
              minutes, seconds);
     }
-    public void changeSpeed(ActionEvent event){
+    public void changeSpeed(ActionEvent event) throws IOException {
         warningLabel.setText("Wpisz wartość z przedziału [0.5, 100.0] w polu tekstowym i zatwierdź klikając 'OK'");
+        queue.save(2,sliderDif(),textInput,numberInput);
         operation = 2;
     }
     public void playAfterChange(File file1){
@@ -411,13 +560,10 @@ public class Controller implements Initializable{
 
     }
 
-    public void merge(){
+    public void merge() throws IOException {
         warningLabel.setText("Wpisz 0 by dołączyć nowy plik przed " + file.getName() + ", lub 1 by dołączyć go po nim, oraz wpisz nazwę dołączanego pliku (z rozszerzeniem) w poniższym polu tekstowym i zatwierdź klikając 'OK'");
+        queue.save(6,sliderDif(),textInput,numberInput);
         operation = 6;
-    }
-    public String test(String string){
-        System.out.println(string + "placki");
-        return string + "2";
     }
     public void saveChanges(){
 
