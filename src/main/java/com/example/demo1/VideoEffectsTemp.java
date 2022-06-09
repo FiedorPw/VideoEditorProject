@@ -158,6 +158,16 @@ public class VideoEffectsTemp {
                 .done().setComplexFilter("concat=n=2:v=1:a=1");
         executor.createJob(builder).run();
     }
+    public static void simpleAppend(String filename1, String filename2, String output){      //skleja segmenty po cutPass
+        FFmpegBuilder builder = new FFmpegBuilder()
+                .setInput(filename1)
+                .addInput(filename2)
+                .overrideOutputFiles(true) // Override the output if it exists
+                .addOutput(output)   // Filename for the destination
+                .setFormat("mp4")        // Format is inferred from filename, or can be set
+                .done().setComplexFilter("concat=n=2:v=1:a=1");
+        executor.createJob(builder).run();
+    }
 
     //-----------------Raw Filters--------------------------
     public static void blur(String filename, int blurStrength){  //bluruje calosc

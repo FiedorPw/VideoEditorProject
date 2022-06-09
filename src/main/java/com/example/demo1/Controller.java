@@ -230,14 +230,24 @@ public class Controller implements Initializable{
             case 4:
                 mediaPlayer.pause();
                 textInput = typo.getText();
-                Vid.compress(file.getName().substring(0, file.getName().lastIndexOf('.')) + ".mp4", textInput);
+                Vid.compress(file.getName(), textInput);
                 break;
             case 5:
                 mediaPlayer.pause();
                 file = new File(typo.getText());
                 playAfterChange(file);
                 break;
-
+            case 6:
+                mediaPlayer.pause();
+                textInput = typo.getText().split(" ")[1];
+                numberInput = Integer.parseInt(typo.getText().split(" ")[0]);
+                if(numberInput==1)
+                    Vid.simpleAppend(file.getName(),textInput,file.getName().substring(0, file.getName().lastIndexOf('.')) + "merge.mp4");
+                if(numberInput==0)
+                    Vid.simpleAppend(textInput,file.getName(),file.getName().substring(0, file.getName().lastIndexOf('.')) + "merge.mp4");
+                file = new File(file.getName().substring(0, file.getName().lastIndexOf('.')) + "merge.mp4");
+                playAfterChange(file);
+                break;
         }
         operation = 0;
     }
@@ -385,7 +395,8 @@ public class Controller implements Initializable{
     }
 
     public void merge(){
-
+        warningLabel.setText("Wpisz 0 by dołączyć nowy plik przed " + file.getName() + ", lub 1 by dołączyć go po nim, oraz wpisz nazwę dołączanego pliku (z rozszerzeniem) w poniższym polu tekstowym i zatwierdź klikając 'OK'");
+        operation = 6;
     }
 
     public void saveChanges(){
