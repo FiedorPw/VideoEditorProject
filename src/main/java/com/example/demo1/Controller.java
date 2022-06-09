@@ -382,7 +382,10 @@ public class Controller implements Initializable{
     public void merge(){
 
     }
-
+    public String test(String string){
+        System.out.println(string + "placki");
+        return string + "2";
+    }
     public void saveChanges(){
 
     }
