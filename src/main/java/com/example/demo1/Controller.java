@@ -142,8 +142,7 @@ public class Controller implements Initializable{
                 //implementacja
                 if ((k[0] == 0 && k[1]==maks) || k[1]==k[0]){
                     Vid.volumeManipulation(file.getName().substring(0, file.getName().lastIndexOf('.')) + ".mp4",numberInput);
-                    Vid.replace(file.getName().substring(0, file.getName().lastIndexOf('.')) + ".mp4",file.getName().substring(0, file.getName().lastIndexOf('.')) + "edit" + ".mp4");
-                    playAfterChange(new File(file.getName().substring(0, file.getName().lastIndexOf('.')) + "output" + ".mp4"));
+                    playAfterChange(new File(file.getName().substring(0, file.getName().lastIndexOf('.')) + "edit" + ".mp4"));
                 }
                 else {
                     if (k[0] == 0 || k[1] == 0 || k[0] == maks || k[1] == maks) {
