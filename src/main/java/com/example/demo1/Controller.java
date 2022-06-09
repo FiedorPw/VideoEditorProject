@@ -134,6 +134,7 @@ public class Controller implements Initializable{
         warningLabel.setText("");
         switch (operation){
             case 1:
+                mediaPlayer.pause();
                 numberInput = Double.parseDouble(typo.getText());
                 //implementacja
                 if (k[0] == 0 && k[1]==maks){
@@ -164,6 +165,7 @@ public class Controller implements Initializable{
                 }
                 break;
             case 2:
+                mediaPlayer.pause();
                 numberInput = Double.parseDouble(typo.getText());
                 //implementacja
                 if (k[0] == 0 && k[1]==maks){
@@ -194,6 +196,7 @@ public class Controller implements Initializable{
                 }
                 break;
             case 3:
+                mediaPlayer.pause();
                 textInput = typo.getText();
                 String[] inputs = textInput.split(" ");
                 //implementacja
@@ -225,10 +228,12 @@ public class Controller implements Initializable{
                 }
                 break;
             case 4:
+                mediaPlayer.pause();
                 textInput = typo.getText();
                 Vid.compress(file.getName().substring(0, file.getName().lastIndexOf('.')) + ".mp4", textInput);
                 break;
             case 5:
+                mediaPlayer.pause();
                 file = new File(typo.getText());
                 playAfterChange(file);
                 break;
