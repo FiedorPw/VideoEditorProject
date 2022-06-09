@@ -86,6 +86,18 @@ public class VideoEffectsTemp {
         executor.createJob(builder2).run();
     }
 
+    public static void buffer(String filename){
+        FFmpegBuilder builder1 = new FFmpegBuilder()
+                .setInput(filename)     // Filename, or a FFmpegProbeResult
+                .overrideOutputFiles(true) // Override the output if it exists
+                .addOutput("buffer.mp4")   // Filename for the destination
+                .setFormat("mp4")        // Format is inferred from filename, or can be set
+                .setStartOffset(0,TimeUnit.SECONDS)
+                .setDuration(1, TimeUnit.SECONDS)
+                .done();
+        executor.createJob(builder1).run();
+    }
+
     public static void concatenateFin(String filename, String output){      //skleja segmenty po cutPass
         String input1 = filename.substring(0, filename.lastIndexOf('.')) + "1" + ".mp4";
         String input2 = filename.substring(0, filename.lastIndexOf('.')) + "2" + ".mp4";
@@ -179,8 +191,6 @@ public class VideoEffectsTemp {
                 .setVideoFilter("boxblur="+blurStrength)
                 .done();
         executor.createJob(builder).run();
-        File inputFile = new File(filename);
-        inputFile.delete();
     }
     public static void colorBalance(String filename, double intensity, String color, String level){  //bluruje srodkowy segment po cutPass
         if(level.equals("low"))
@@ -227,6 +237,8 @@ public class VideoEffectsTemp {
                 .done();
         executor.createJob(builder).run();
     }
+
+
 
     //------------Filter Callers-----------------------------
 
