@@ -178,7 +178,7 @@ public class Controller implements Initializable{
                 //implementacja
                 if ((k[0] == 0 && k[1]==maks)||k[0]==k[1]){
                     Vid.speedManipulation(file.getName(),numberInput);
-                     playAfterChange(new File(file.getName().substring(0, file.getName().lastIndexOf('.')) + "edit" + ".mp4"));
+                    playAfterChange(new File(file.getName().substring(0, file.getName().lastIndexOf('.')) + "edit" + ".mp4"));
                 }
                 else {
                     if (k[0] == 0 || k[1] == 0 || k[0] == maks || k[1] == maks || k[0] == k[1]) {
@@ -388,7 +388,7 @@ public class Controller implements Initializable{
         long[] k = sliderDif();
         double val = mds1.getMax();Duration duration =  new Duration(val * 60 * 1000);
         long maks = (long)duration.toSeconds();
-        if (k[0] == 0 && k[1]==maks){
+        if (k[0] == 0 && k[1]==maks || k[0]==k[1]){
             System.out.println("im in");
             return;
         }
