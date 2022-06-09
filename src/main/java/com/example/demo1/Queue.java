@@ -21,6 +21,7 @@ public class Queue {
 
         listOfmetods.add(metoda);
         kList.add(k);
+        textInputList.add(textInput);
         //zapisywanie w dwóch listach nazwy metody i parametru k
 
         XMLEncoder xmlEncoder = new XMLEncoder(new BufferedOutputStream(new FileOutputStream("listOfmetods.xml")));
@@ -36,9 +37,9 @@ public class Queue {
         xmlEncoder3.writeObject(textInputList); //zapisuje list of changes w xml
         xmlEncoder3.close();
 
-        XMLEncoder xmlEncoder4 = new XMLEncoder(new BufferedOutputStream(new FileOutputStream("numberInputList.xml")));
-        xmlEncoder4.writeObject(numberInputList); //zapisuje list of changes w xml
-        xmlEncoder4.close();
+//        XMLEncoder xmlEncoder4 = new XMLEncoder(new BufferedOutputStream(new FileOutputStream("numberInputList.xml")));
+//        xmlEncoder4.writeObject(numberInputList); //zapisuje list of changes w xml
+//        xmlEncoder4.close();
 
     }
     //otwiera odpowiednie pliki xml z kazdego odczytuje arrayliste i podstawia pod zmienną globalną
@@ -50,13 +51,11 @@ public class Queue {
         kList = (ArrayList<long[]>) xmlDecoder.readObject();
 
         XMLDecoder xmlDecoder3 = new XMLDecoder(new BufferedInputStream(new FileInputStream("textInputList.xml")));
-        textInputList = (ArrayList<String>) xmlDecoder.readObject();
+        textInputList = (ArrayList<String>) xmlDecoder3.readObject();
 
-        XMLDecoder xmlDecoder4 = new XMLDecoder(new BufferedInputStream(new FileInputStream("numberInputList.xml")));
-        numberInputList = (ArrayList<Double>) xmlDecoder.readObject();
+//        XMLDecoder xmlDecoder4 = new XMLDecoder(new BufferedInputStream(new FileInputStream("numberInputList.xml")));
+//        numberInputList = (ArrayList<Double>) xmlDecoder4.readObject();
 
-
-        //System.out.println(secondList);
 
     }
 

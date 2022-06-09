@@ -69,7 +69,7 @@ public class Controller implements Initializable{
 
 
 
-        file = new File("output.mp4");
+        file = new File("filmik.mp4");
         Modifyer modifyer = new Modifyer(file);
         modifyer.setRate(1.0);
         modifyer.setVolume(1.0);
@@ -413,7 +413,7 @@ public class Controller implements Initializable{
         operation = 0;
     }
     public void colorBalance() throws IOException {
-        queue.save(3,sliderDif(),textInput,numberInput);
+        queue.save(3,sliderDif(),typo.getText(),numberInput);
         warningLabel.setText("Wpisz kolor (red/blue/green), ton (shadows/midtones/highlights) oraz wartość z przedziału [-1.0, 1.0] w polu tekstowym i zatwierdź klikając 'OK'");
         operation = 3;
     }
@@ -425,7 +425,7 @@ public class Controller implements Initializable{
 
     public void changeVolume(ActionEvent event) throws IOException {
         warningLabel.setText("Wpisz wartość (domyślnie 1.0) w polu tekstowym i zatwierdź klikając 'OK'");
-        queue.save(1,sliderDif(),textInput,numberInput);
+        queue.save(1,sliderDif(),typo.getText(),numberInput);
         operation = 1;
     }
 
@@ -438,7 +438,7 @@ public class Controller implements Initializable{
     }
     public void changeSpeed(ActionEvent event) throws IOException {
         warningLabel.setText("Wpisz wartość z przedziału [0.5, 100.0] w polu tekstowym i zatwierdź klikając 'OK'");
-        queue.save(2,sliderDif(),textInput,numberInput);
+        queue.save(2,sliderDif(),typo.getText(),numberInput);
         operation = 2;
     }
     public void playAfterChange(File file1){
@@ -559,14 +559,29 @@ public class Controller implements Initializable{
 
     public void merge() throws IOException {
         warningLabel.setText("Wpisz 0 by dołączyć nowy plik przed " + file.getName() + ", lub 1 by dołączyć go po nim, oraz wpisz nazwę dołączanego pliku (z rozszerzeniem) w poniższym polu tekstowym i zatwierdź klikając 'OK'");
-        queue.save(6,sliderDif(),textInput,numberInput);
+        queue.save(6,sliderDif(),typo.getText(),numberInput);
         operation = 6;
     }
     public void saveChanges(){
 
     }
 
-    public void deleteChanges(){
+    public void deleteChanges() throws FileNotFoundException {
+
+            queue.load();
+            ArrayList<Integer> listOfmetods = queue.listOfmetods;
+            ArrayList<long[]> kList = queue.kList;
+            ArrayList<String> textInputList =queue.textInputList;
+            ArrayList<Double> numberInputList = queue.numberInputList;
+
+
+            for (int i = 0; i < listOfmetods.size()-1; i++) {
+                operation = listOfmetods.get(i);
+                long[] k = kList.get(i);
+                typo.setText(textInputList.get(i));
+                operationChooser(k);
+            }
+
 
     }
 
