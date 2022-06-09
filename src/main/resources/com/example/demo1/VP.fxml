@@ -51,6 +51,7 @@
          </font>
       </Label>
       <Button fx:id="okButton" layoutX="640.0" layoutY="760.0" mnemonicParsing="false" onAction="#operationChooser" text="OK" />
+      <Button fx:id="projectLoader" layoutX="110.0" layoutY="761.0" mnemonicParsing="false" onAction="#loadProject" text="WCZYTAJ PROJEKT" />
 
    </children>
 

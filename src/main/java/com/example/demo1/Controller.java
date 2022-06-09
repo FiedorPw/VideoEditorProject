@@ -5,6 +5,7 @@ package com.example.demo1;
 import java.io.File;
 import java.net.URL;
 
+import java.nio.file.NoSuchFileException;
 import java.util.ResourceBundle;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -41,7 +42,7 @@ public class Controller implements Initializable{
     private Label currentTime, mds1l, mds2l, warningLabel;
 
     @FXML
-    private Button playButton, pauseButton, resetButton, fileChoose, okButton;
+    private Button playButton, pauseButton, resetButton, fileChoose, okButton, projectLoader;
 
     @FXML
     private Slider timeSlider, mds1, mds2;
@@ -121,6 +122,9 @@ public class Controller implements Initializable{
     public void fileChooser(){
         warningLabel.setText("Wpisz nazwę pliku w polu tekstowym i zatwierdź klikając 'OK'");
         operation = 5;
+    }
+    public void loadProject(){
+
     }
     public void operationChooser(){
         long[] k = sliderDif();
