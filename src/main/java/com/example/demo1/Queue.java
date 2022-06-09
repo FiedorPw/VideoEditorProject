@@ -1,6 +1,8 @@
 package com.example.demo1;
 
 import java.io.*;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -33,8 +35,18 @@ public class Queue {
         list.addAll(List.of(arguments));
         listOfChanges.add(list); //dodanie jej do głównej listy
     }
-    public static void main(String[] args) throws IOException {
+
+    public void invokeMetods() throws ClassNotFoundException, NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException {
+        Class<?> myclass = Class.forName("com.example.demo1.Controller");
+        Method method = myclass.getMethod("test", String.class);
+        Object object = myclass.newInstance();
+        String output = (String)method.invoke(object,"hello there");
+        System.out.println(output);
+
+    }
+    public static void main(String[] args) throws IOException, ClassNotFoundException, NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException {
         Queue queueChanges = new Queue();
-        queueChanges.save();
+       // queueChanges.save();
+        queueChanges.invokeMetods();
     }
 }

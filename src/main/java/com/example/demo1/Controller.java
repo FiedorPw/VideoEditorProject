@@ -398,7 +398,10 @@ public class Controller implements Initializable{
         warningLabel.setText("Wpisz 0 by dołączyć nowy plik przed " + file.getName() + ", lub 1 by dołączyć go po nim, oraz wpisz nazwę dołączanego pliku (z rozszerzeniem) w poniższym polu tekstowym i zatwierdź klikając 'OK'");
         operation = 6;
     }
-
+    public String test(String string){
+        System.out.println(string + "placki");
+        return string + "2";
+    }
     public void saveChanges(){
 
     }
