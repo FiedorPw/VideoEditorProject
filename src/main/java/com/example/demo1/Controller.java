@@ -126,8 +126,8 @@ public class Controller implements Initializable{
         warningLabel.setText("Wpisz nazwę pliku w polu tekstowym i zatwierdź klikając 'OK'");
         operation = 5;
     }
-    public void loadProject(){
-
+    public void loadProject() throws FileNotFoundException {
+        invokeMetods();
     }
     public void operationChooser(){
         long[] k = sliderDif();
@@ -271,7 +271,7 @@ public class Controller implements Initializable{
         }
         operation = 0;
     }
-    public void invokeMetods(int numCase) throws FileNotFoundException {
+    public void invokeMetods() throws FileNotFoundException {
         queue.load();
         ArrayList<Integer> listOfmetods = queue.listOfmetods;
         ArrayList<long[]> kList = queue.kList;
