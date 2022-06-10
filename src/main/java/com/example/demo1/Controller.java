@@ -260,7 +260,7 @@ public class Controller implements Initializable{
                 textInput = typo.getText();
                 String[] inputs = textInput.split(" ");
                 //ColorBalance byl bardzo problematyczny, ale kosztem pamieci i czasu sie z nim uporalismy
-                    if(k[0]==0) {
+                    if(k[0]==0 || k[1]==maks) {
                         k[0] = 1;
                         k[1] = (long) mediaPlayer.getTotalDuration().toSeconds();
                         Vid.buffer(file.toString());
@@ -472,7 +472,7 @@ public class Controller implements Initializable{
                 textInput = typo.getText();
                 String[] inputs = textInput.split(" ");
                 //ColorBalance byl bardzo problematyczny, ale kosztem pamieci i czasu sie z nim uporalismy
-                if(k[0]==0) {
+                if(k[0]==0 || k[1] == maks) {
                     k[0] = 1;
                     k[1] = (long) mediaPlayer.getTotalDuration().toSeconds();
                     Vid.buffer(file.toString());

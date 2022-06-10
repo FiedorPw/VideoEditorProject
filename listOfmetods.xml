@@ -2,7 +2,7 @@
 <java version="17.0.1" class="java.beans.XMLDecoder">
  <object class="java.util.ArrayList">
   <void method="add">
-   <int>6</int>
+   <int>1</int>
   </void>
  </object>
 </java>
