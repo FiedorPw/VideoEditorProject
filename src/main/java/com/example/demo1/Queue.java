@@ -17,6 +17,16 @@ public class Queue {
     //metoda jest zgarniana razem z ustawieniem jej globalnie
     // k jest zgarniane ze slidera tak jak na początku operationChoser()
     //textInput i numberInput są zgarniane ze zmiennych globalnych przed wywołaniem operationChoser()(może nie działać)
+
+    /**
+     * Metoda zbierająca dane z GUI takie jak położenie sliderów i zawartość pól tekstowych
+     * Umożliwia zapis projektu
+     * @param metoda przechowuje wartość liczbową przypisywaną każdej metodzie w momencie jej wykonania
+     * @param k przechowuje położenie sliderów
+     * @param textInput dwie zmienne przechowujące zawartość pola tekstowego, odpowiednio sformatowaną
+     * @param numberInput
+     * @throws IOException
+     */
     public void save(int metoda, long[] k,String textInput,Double numberInput) throws IOException {
 
         listOfmetods.add(metoda);
@@ -43,6 +53,11 @@ public class Queue {
 
     }
     //otwiera odpowiednie pliki xml z kazdego odczytuje arrayliste i podstawia pod zmienną globalną
+
+    /**
+     * Metoda pozwalająca na odczyt danych z plików projektu i przekazanie ich do interfejsu użytkownika
+     * @throws FileNotFoundException
+     */
     public void load() throws FileNotFoundException {
         XMLDecoder xmlDecoder2 = new XMLDecoder(new BufferedInputStream(new FileInputStream("listOfmetods.xml")));
         listOfmetods = (ArrayList<Integer>) xmlDecoder2.readObject();
@@ -69,6 +84,17 @@ public class Queue {
 //        System.out.println(output);
 //
 //    }
+
+    /**\
+     * testowa metoda dla klasy Queue
+     * @param args
+     * @throws IOException
+     * @throws ClassNotFoundException
+     * @throws NoSuchMethodException
+     * @throws InstantiationException
+     * @throws IllegalAccessException
+     * @throws InvocationTargetException
+     */
     public static void main(String[] args) throws IOException, ClassNotFoundException, NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException {
         Queue queueChanges = new Queue();
         //queueChanges.save();

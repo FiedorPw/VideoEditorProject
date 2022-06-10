@@ -9,6 +9,10 @@ public class Modifyer {
     private Media media;
     private MediaPlayer mediaPlayer;
 
+    /**
+     * klasa odpowiedzialna za najważniejsze atrybuty mediaPlayera, poniżej jej konstruktor
+     * @param file
+     */
     public Modifyer(File file) {
         this.file = file;
         this.media = new Media(file.toURI().toString());

@@ -20,6 +20,11 @@ import javafx.stage.FileChooser;
 public class FileChooser_2 extends Application {
 
     // launch the application
+
+    /**
+     * metoda uruchamiająca naszą aplikację
+     * @param stage
+     */
     public void start(Stage stage)
     {
 
@@ -100,6 +105,10 @@ public class FileChooser_2 extends Application {
         }
     }
 
+    /**
+     * metoda testowa klasy
+     * @param args
+     */
     // Main Method
     public static void main(String args[])
     {
