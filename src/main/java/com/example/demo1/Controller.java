@@ -63,6 +63,9 @@ public class Controller implements Initializable{
     public double numberInput;
     public int operation; //te 3 zmienne są odpowiedzialne za guziki wymagające podaina parametrów w polu tekstowym,
 
+    /**
+     * Zdefiniowana na nowo metoda initialize na potrzeby wywołania okna mediaPlayera
+     */
     @Override
 
     public void initialize(URL arg0, ResourceBundle arg1) {
@@ -118,6 +121,9 @@ public class Controller implements Initializable{
         mediaView.setMediaPlayer(mediaPlayer);
     }
 
+    /**
+     * Seria metod obsługujących guziki GUI i ewentualne inne elementy, takie jak informacyjne pole tekstowe label
+     */
     public void playMedia() {
         mediaPlayer.play();
     }
@@ -132,6 +138,13 @@ public class Controller implements Initializable{
     public void loadProject() throws FileNotFoundException {
         invokeMetods();
     }
+
+    /**
+     * metoda obsługująca guziki odpowiedzialne w GUI za operacje zmieniające parametry pliku lub jego części
+     * jako switch implementuje polecenia zmiany szybkości odtwarzania filmu, jego głośności i balansu kolorów
+     * tworzy wiele plików pośrednich, ale po zakończeniu pracy "sprząta po sobie"
+     * w kolejnych case'ach realizuje kompresję i eksport pliku oraz konkatenację video
+     */
     public void operationChooser(){
         long[] k = sliderDif();
         double val = mds1.getMax();
@@ -316,6 +329,12 @@ public class Controller implements Initializable{
         }
         operation = 0;
     }
+
+    /**
+     * Metoday wywołująca pobrane z listy metody bez użycia GUI
+     * Wykorzystywana w odtwarzaniu zmian z projektu
+     * @throws FileNotFoundException
+     */
     public void invokeMetods() throws FileNotFoundException {
         queue.load();
         ArrayList<Integer> listOfmetods = queue.listOfmetods;
@@ -332,6 +351,12 @@ public class Controller implements Initializable{
         }
 
     }
+
+    /**
+     * Switch odpowiadający za wykonywanie metod zmieniających plik w wersji przyjmującej parametry
+     * Wykorzystywany do odtworzenia pliku projektu
+     * @param k tablica pozycji sliderów
+     */
     public void operationChooser(long[] k){
 
         double val = mds1.getMax();
@@ -516,6 +541,12 @@ public class Controller implements Initializable{
         }
         operation = 0;
     }
+
+    /**
+     * seria metod zapisujących wykonywane czynności do plików projektu
+     * zajmuje się też wyrzucaniem komunikatów na label informacyjny
+     * @throws IOException
+     */
     public void colorBalance() throws IOException {
         queue.save(3,sliderDif(),typo.getText(),numberInput);
         warningLabel.setText("Wpisz kolor (red/blue/green), ton (shadows/midtones/highlights) oraz wartość z przedziału [-1.0, 1.0] w polu tekstowym i zatwierdź klikając 'OK'");
@@ -545,6 +576,11 @@ public class Controller implements Initializable{
         queue.save(2,sliderDif(),typo.getText(),numberInput);
         operation = 2;
     }
+
+    /**
+     * metoda pozwalająca na odtworzenie nowego pliku po zastosowaniu zmian na starym pliku
+     * @param file1
+     */
     public void playAfterChange(File file1){
         Modifyer modifyer = new Modifyer(file1);
         file = file1;
@@ -588,6 +624,10 @@ public class Controller implements Initializable{
         mediaView.setMediaPlayer(mediaPlayer);
     }
 
+    /**
+     * metoda odpowiadająca za wyblurowanie obrazu
+     * w miarę rozwoju projektu możliwa do sparametryzowania
+     */
     public void blur(){
         long[] k = sliderDif();
         double val = mds1.getMax();
@@ -621,6 +661,10 @@ public class Controller implements Initializable{
         }
 
     }
+
+    /**
+     * metoda ustalająca, który slider znajduje się bardziej z prawej strony i zamyka obrys zaznaczenia, a który z lewej i go otwiera
+     */
     public long[] sliderDif(){
         long[] output = new long[2];
         double val = mds1.getValue();Duration duration =  new Duration(val * 60 * 1000);
@@ -634,6 +678,10 @@ public class Controller implements Initializable{
         }
         return output;
     }
+
+    /**
+     * dwie metody dzielące i łączące pliki video
+     */
     public void cutting(){
         long[] k = sliderDif();
         double val = mds1.getMax();Duration duration =  new Duration(val * 60 * 1000);
@@ -666,6 +714,10 @@ public class Controller implements Initializable{
         queue.save(6,sliderDif(),typo.getText(),numberInput);
         operation = 6;
     }
+
+    /**
+     * metody do obsługi pliku projektowego
+     */
     public void saveChanges(){
 
     }
@@ -689,6 +741,9 @@ public class Controller implements Initializable{
 
     }
 
+    /**
+     * cofa slider odtwarzania na początek osi czasu
+     */
     public void resetMedia() {
         if(mediaPlayer.getStatus() != MediaPlayer.Status.READY) {
             mediaPlayer.seek(Duration.seconds(0.0));
