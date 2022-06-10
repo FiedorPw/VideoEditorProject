@@ -4,5 +4,8 @@
   <void method="add">
    <int>1</int>
   </void>
+  <void method="add">
+   <int>3</int>
+  </void>
  </object>
 </java>

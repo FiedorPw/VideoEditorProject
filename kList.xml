@@ -4,5 +4,8 @@
   <void method="add">
    <array class="long" length="2"/>
   </void>
+  <void method="add">
+   <array class="long" length="2"/>
+  </void>
  </object>
 </java>
