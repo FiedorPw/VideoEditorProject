@@ -1,22 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<java version="18.0.1.1" class="java.beans.XMLDecoder">
+<java version="17.0.1" class="java.beans.XMLDecoder">
  <object class="java.util.ArrayList">
   <void method="add">
-   <array class="long" length="2">
-    <void index="1">
-     <long>27</long>
-    </void>
-   </array>
-  </void>
-  <void method="add">
-   <array class="long" length="2">
-    <void index="0">
-     <long>28</long>
-    </void>
-    <void index="1">
-     <long>36</long>
-    </void>
-   </array>
+   <array class="long" length="2"/>
   </void>
  </object>
 </java>
