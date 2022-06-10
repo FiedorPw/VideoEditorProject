@@ -30,6 +30,13 @@ public class VideoEffectsTemp {
     static FFmpegExecutor executor = new FFmpegExecutor(ffmpeg, ffprobe);
 
     //---------Utility-------------------------
+
+    /**
+     * Metoda dzieląca film na trzy części (program później wykorzysta tę środkową)
+     * @param filename plik do podziału
+     * @param time1 czas pierwszego splitu, ustawiany sliderem
+     * @param time2 czas drugiego splitu, jak wyżej
+     */
     public static void cutPass(String filename, long time1, long time2){     //Dzieli filmik na trzy
         String input1 = filename.substring(0, filename.lastIndexOf('.')) + "1" + ".mp4";
         String input2 = filename.substring(0, filename.lastIndexOf('.')) + "2" + ".mp4";
@@ -63,6 +70,11 @@ public class VideoEffectsTemp {
         executor.createJob(builder3).run();
     }
 
+    /**
+     * Analogiczna metoda dzieląca plik na dwie części wokół jednego miejsca splitu
+     * @param filename
+     * @param time1
+     */
     public static void split(String filename, long time1){     //Dzieli filmik na dwa
         String input1 = filename.substring(0, filename.lastIndexOf('.')) + "1" + ".mp4";
         String input3 = filename.substring(0, filename.lastIndexOf('.')) + "2" + ".mp4";
@@ -86,6 +98,11 @@ public class VideoEffectsTemp {
         executor.createJob(builder2).run();
     }
 
+    /**
+     * Metoda dodająca bufor do przetwarzanego pliku
+     * Pozwala obejść pewne błędy ffmpeg, które nie pozwalają na wykonywanie niektórych operacji od brzegu pliku
+     * @param filename
+     */
     public static void buffer(String filename){
         FFmpegBuilder builder1 = new FFmpegBuilder()
                 .setInput(filename)     // Filename, or a FFmpegProbeResult
@@ -98,6 +115,11 @@ public class VideoEffectsTemp {
         executor.createJob(builder1).run();
     }
 
+    /**
+     * metoda składająca w całość trzy fragmenty
+     * @param filename
+     * @param output
+     */
     public static void concatenateFin(String filename, String output){      //skleja segmenty po cutPass
         String input1 = filename.substring(0, filename.lastIndexOf('.')) + "1" + ".mp4";
         String input2 = filename.substring(0, filename.lastIndexOf('.')) + "2" + ".mp4";
@@ -119,7 +141,11 @@ public class VideoEffectsTemp {
         inputFile3.delete();
     }
 
-
+    /**
+     * metoda zniekształcająca/mgląca (blurrująca) obraz
+     * @param filename
+     * @param output
+     */
     public static void compress(String filename, String output){  //bluruje calosc
         FFmpegBuilder builder = new FFmpegBuilder()
                 .setInput(filename)     // Filename, or a FFmpegProbeResult
@@ -132,6 +158,11 @@ public class VideoEffectsTemp {
         executor.createJob(builder).run();
     }
 
+    /**
+     * metoda służąca podmianie dwóch plików w celu utrzymania porządku
+     * @param replaced
+     * @param replacer
+     */
     public static void replace(String replaced, String replacer){
         File deleteInput = new File(replaced);
         deleteInput.delete();
@@ -139,7 +170,9 @@ public class VideoEffectsTemp {
         File replacingInput = new File(replacer);
         replacingInput.renameTo(replacedInput);
     }
-
+ /**
+  * Trzy metody łączące ze sobą pojedyncze pliki video
+  */
     public static void insert(String filename1, String filename2, String output){      //skleja segmenty po cutPass
         String input1 = filename1.substring(0, filename1.lastIndexOf('.')) + "1" + ".mp4";
         String input2 = filename1.substring(0, filename1.lastIndexOf('.')) + "2" + ".mp4";
@@ -182,6 +215,12 @@ public class VideoEffectsTemp {
     }
 
     //-----------------Raw Filters--------------------------
+
+    /**
+     * Cztery metody bezpośrednio zmieniające parametry filmu (i piąta niewykorzystana, na dalszy rozwój projektu)
+     * @param filename
+     * @param blurStrength
+     */
     public static void blur(String filename, int blurStrength){  //bluruje calosc
         FFmpegBuilder builder = new FFmpegBuilder()
                 .setInput(filename)     // Filename, or a FFmpegProbeResult
@@ -254,6 +293,17 @@ public class VideoEffectsTemp {
 //
 //    }
 
+    /**
+     * metody wywołujące odpowiednie metody z sekcji wyżej
+     * @param filename
+     * @param output
+     * @param time1
+     * @param time2
+     * @param intensity
+     * @param color
+     * @param level
+     * @param replace
+     */
     public static void callColorBalanceSegment(String filename, String output, Long time1, Long time2, double intensity, String color, String level, boolean replace){
         String intermediateInput = filename.substring(0, filename.lastIndexOf('.')) + "2" + ".mp4";
         String intermediateOutput = filename.substring(0, filename.lastIndexOf('.'))+"2edit" + ".mp4";
@@ -297,7 +347,10 @@ public class VideoEffectsTemp {
             replace(filename,intermediateOutput);
     }
 
-
+    /**
+     * główna (testowa) metoda klasy
+     * @param args
+     */
     public static void main(String[] args){
 
         //denoise("filmik.mp4");          // usuwa szum
